@@ -1,24 +1,26 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "Home page";
 }
 
-<div class="landing-container">
-	<div class="title-button-container">
-		<div class="title-container" data-ride="carousel" data-interval="6000">
-			<h1 class="title">Science or Fiction</h1>
+<div class="landing-container" data-change-when-quiz-active>
+	<div class="title-button-container" data-change-when-quiz-active>
+		<div class="title-container" data-change-when-quiz-active>
+			<h1 class="title" data-change-when-quiz-active>Science or Fiction</h1>
 		</div>
 		<div class="begin-quiz-button-container">
-			<button class="button main-button" onclick="beginQuiz();">Begin Quiz</button>
+			<button class="button main-button" onclick="beginQuiz();" data-change-when-quiz-active>Begin Quiz</button>
 		</div>
 	</div>
+</div>
+<section class="quiz-container">
 	<div class="quiz-footer-container">
-		<div class="quiz-footer">
+		<div class="quiz-footer" data-change-when-quiz-active>
 			<div class="quiz-footer-navigation-buttons-container">
 				<button class="quiz-footer-navigation-button"><</button>
 				<button class="quiz-footer-navigation-button">></button>
 			</div>
 		</div>
 	</div>
-</div>
+</section>
