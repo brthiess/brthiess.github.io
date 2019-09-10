@@ -80,15 +80,49 @@ body {
 .main-button.quiz-active {
 	transform: scale(0);
 }
-
-
+/*Quiz Container*/
+.quiz-container-wrapper {
+	height: 100%;
+	display: flex;
+	flex-flow: column;
+}
+.quiz-footer-container {
+	margin-top: auto;
+}
 .quiz-footer {
-	height: 50px;
+	height: 100px;
 	background: #125c90;
-	transform: translate(0px, 50px);
+	transform: translate(0px, 100px);
 	transition: transform 0.3s;
+	display: flex;
+	align-items: center;
 }
 .quiz-footer.quiz-active {
 	transform: translate(0,0);
+}
+
+/*quiz progress*/
+.quiz-progress-container {
+	width: 80%;
+	padding: 0 30px;
+}
+.quiz-progress {
+	width: 100%;
+}
+.quiz-progress-line {
+	width: 100%;
+	height: 2px;
+	background: #afc6d6;
+}
+
+/* quiz buttons*/
+.quiz-footer-navigation-button {
+	background: white;
+	border-radius: 50px;
+	height: 50px;
+	width: 50px;
+	border: none;
+	cursor: pointer;
+	font-size: 30px;
 }
 

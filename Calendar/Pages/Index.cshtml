@@ -14,13 +14,29 @@
 		</div>
 	</div>
 </div>
-<section class="quiz-container">
+<section class="quiz-container-wrapper">
+	<div data-quiz-container class="quiz-container-container"></div>
 	<div class="quiz-footer-container">
 		<div class="quiz-footer" data-change-when-quiz-active>
+			<div class="quiz-progress-container">
+				<div class="quiz-progress">
+					<div class="quiz-progress-line"></div>
+				</div>
+			</div>
 			<div class="quiz-footer-navigation-buttons-container">
-				<button class="quiz-footer-navigation-button"><</button>
-				<button class="quiz-footer-navigation-button">></button>
+				<button class="quiz-footer-navigation-button">〈</button>
+				<button class="quiz-footer-navigation-button">〉</button>
 			</div>
 		</div>
 	</div>
+</section>
+<section class="templates hidden">
+	<section data-quiz-template class="quiz-container">
+		<div class="quiz-section-container">
+			<div class="quiz-question-container">
+				<h3 class="quiz-question" data-quiz-question></h3>
+			</div>
+			<ul data-quiz-answers class="quiz-answers-container"></ul>
+		</div>
+	</section>
 </section>
