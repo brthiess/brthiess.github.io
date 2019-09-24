@@ -21,7 +21,8 @@ body {
 .body-content {
 	height: 100%;
 	flex-flow: column;
-	overflow:hidden;
+	overflow: hidden;
+	display: flex;
 }
 
 /*Main Title and Button*/
@@ -39,7 +40,6 @@ body {
 .landing-container {
 	display: flex;
 	flex-flow: column;
-	position: absolute;
 	width: 100%;
 	justify-content: center;
 	transform: translate(0, 30vh);
@@ -82,7 +82,7 @@ body {
 }
 /*Quiz Container*/
 .quiz-container-wrapper {
-	height: 100%;
+	flex: 1;
 	display: flex;
 	flex-flow: column;
 }
