@@ -26,7 +26,7 @@ function populateQuizHtml(data) {
 }
 
 function populateQuizTemplates(template, data) {
-	var quizHtml = $(template).clone();
+	var quizHtml = $(template).clone().html("");
 	for (var i = 0; i < data.questions.length; i++) {
 		var quizSection = populateQuizSection($(template).find("[data-quiz-section]"), data.questions[i]);
 		$(quizSection).appendTo($(quizHtml));
@@ -35,9 +35,36 @@ function populateQuizTemplates(template, data) {
 }
 
 function populateQuizSection(sectionTemplate, questionData) {
-	var quizSection = sectionTemplate.clone();
-	$(quizSection).find("[data-quiz-question]").text(questionData.question);
+	var quizSection = $(sectionTemplate).clone().html("");
+
+	var quizQuestion = populateQuizQuestion($(sectionTemplate).find("[data-quiz-question-container]"), questionData.question);
+	$(quizQuestion).appendTo($(quizSection));	
+
+	var quizAnswers = populateQuizQuestionAnswers($(sectionTemplate).find("[data-quiz-answers]"), questionData.answers);
+	$(quizAnswers).appendTo($(quizSection));	
+
 	return quizSection;
+}
+
+function populateQuizQuestionAnswers(answersTemplate, answersData) {
+	var answersHtml = $(answersTemplate).clone().html("");
+	for (var i = 0; i < answersData.length; i++) {
+		var answerHtml = populateAnswer($(answersTemplate).find("[data-quiz-answer]"), answersData[i]);
+		$(answerHtml).appendTo($(answersHtml));
+	}
+	return answersHtml;
+}
+
+function populateQuizQuestion(questionTemplate, questionText) {
+	var questionHtml = questionTemplate.clone();
+	$(questionHtml).find("[data-quiz-question]").text(questionText);
+	return questionHtml;
+}
+
+function populateAnswer(answerTemplate, answer) {
+	var answerHtml = answerTemplate.clone();
+	$(answerHtml).text(answer.text);
+	return answerHtml;
 }
 
 function getFakeData() {
