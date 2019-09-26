@@ -24,15 +24,15 @@
 				</div>
 			</div>
 			<div class="quiz-footer-navigation-buttons-container">
-				<button class="quiz-footer-navigation-button">〈</button>
-				<button class="quiz-footer-navigation-button">〉</button>
+				<button class="quiz-footer-navigation-button previous" onclick="goToPreviousQuestion()">〈</button>
+				<button class="quiz-footer-navigation-button next" onclick="goToNextQuestion()">〉</button>
 			</div>
 		</div>
 	</div>
 </section>
 <section class="templates hidden">
 	<section data-quiz-template class="quiz-container">
-		<div data-quiz-section class="quiz-section-container">
+		<div data-quiz-section data-quiz-question-number class="quiz-section-container">
 			<div data-quiz-question-container class="quiz-question-container">
 				<h3 class="quiz-question" data-quiz-question></h3>
 			</div>

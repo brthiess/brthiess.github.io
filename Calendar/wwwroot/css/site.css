@@ -14,6 +14,7 @@
 
 
 
+
 body {
 	height: 100vh;
 	background-color: #F5F2B7;
@@ -86,6 +87,31 @@ body {
 	display: flex;
 	flex-flow: column;
 }
+.quiz-container-container {
+	flex-grow: 1;
+}
+.quiz-container {
+	width: 100%;
+	overflow: hidden;
+	height: 100%;
+	position: relative;
+}
+.quiz-section-container {
+	width: 100%;
+	transition: transform .5s;
+	position: absolute;
+}
+.quiz-section-container.previous{
+	transform:translateX(-100%);
+}
+.quiz-section-container.next {
+	transform: translateX(100%);
+}
+
+
+
+
+/* quiz footer*/
 .quiz-footer-container {
 	margin-top: auto;
 }
@@ -125,4 +151,10 @@ body {
 	cursor: pointer;
 	font-size: 30px;
 }
-
+.quiz-footer-navigation-button:focus{
+	outline: none;
+}
+.quiz-footer-navigation-button.disabled{
+	background: #aaa;
+	pointer-events: none;
+}
