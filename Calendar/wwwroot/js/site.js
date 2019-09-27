@@ -35,13 +35,16 @@ function populateQuizTemplates(template, data) {
 }
 
 function populateQuizSection(sectionTemplate, questionData, activeQuestionNumber) {
-	var quizSection = $(sectionTemplate).clone().html("");
+	var quizSection = $(sectionTemplate).clone();
 
 	var quizQuestion = populateQuizQuestion($(sectionTemplate).find("[data-quiz-question-container]"), questionData.question);
-	$(quizQuestion).appendTo($(quizSection));	
+	$(quizSection).find("[data-quiz-question-container]").replaceWith($(quizQuestion));	
 
 	var quizAnswers = populateQuizQuestionAnswers($(sectionTemplate).find("[data-quiz-answers]"), questionData.answers);
-	$(quizAnswers).appendTo($(quizSection));	
+	$(quizSection).find("[data-quiz-answers]").replaceWith($(quizAnswers));	
+
+	var quizNumber = populateQuizQuestionNumber($(sectionTemplate).find("[data-quiz-question-number-text]"), questionData.number);
+	$(quizSection).find("[data-quiz-question-number-text]").replaceWith($(quizNumber));	
 
 	if (activeQuestionNumber < questionData.number) {
 		$(quizSection).addClass("next");
@@ -65,6 +68,13 @@ function populateQuizQuestionAnswers(answersTemplate, answersData) {
 		$(answerHtml).appendTo($(answersHtml));
 	}
 	return answersHtml;
+}
+
+function populateQuizQuestionNumber(numberTemplate, questionNumber) {
+	var numberHtml = $(numberTemplate).clone().html("");
+
+	$(numberHtml).text(questionNumber);
+	return numberHtml;
 }
 
 function populateQuizQuestion(questionTemplate, questionText) {

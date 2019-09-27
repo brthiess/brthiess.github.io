@@ -96,6 +96,10 @@ body {
 	height: 100%;
 	position: relative;
 }
+.quiz-inner-container {
+	max-width: 1000px;
+	margin: auto;
+}
 .quiz-section-container {
 	width: 100%;
 	transition: transform .5s;
