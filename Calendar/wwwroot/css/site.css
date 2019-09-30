@@ -96,10 +96,6 @@ body {
 	height: 100%;
 	position: relative;
 }
-.quiz-inner-container {
-	max-width: 1000px;
-	margin: auto;
-}
 .quiz-section-container {
 	width: 100%;
 	transition: transform .5s;
@@ -111,9 +107,56 @@ body {
 .quiz-section-container.next {
 	transform: translateX(100%);
 }
-
-
-
+.quiz-inner-container {
+	max-width: 1000px;
+	margin: auto;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto auto;
+}
+.quiz-question-container {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	margin: 40px 0;
+}
+.quiz-question {
+	font-size: 32px;
+}
+.quiz-answers-container {
+	list-style: none;
+	display: flex;
+	padding: 0;
+}
+.quiz-answer {
+	background-color: white;
+	margin: 0 20px;
+	padding: 20px 40px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+	cursor: pointer;
+	flex: 1;
+	line-height: 1.4;
+	transition: all 0.3s;
+}
+.quiz-answer:first-child {
+	margin-left: 0;
+}
+.quiz-answer:last-child {
+	margin-right: 0;
+}
+.quiz-answer:hover {
+	background: #d1ecff;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.quiz-answer.selected {
+	color: white;
+	background-color: #105c90;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.quiz-question-number {
+	font-size: 140px;
+	align-self: flex-end;
+}
 
 /* quiz footer*/
 .quiz-footer-container {
@@ -126,6 +169,8 @@ body {
 	transition: transform 0.3s;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	padding: 0 30px;
 }
 .quiz-footer.quiz-active {
 	transform: translate(0,0);
@@ -143,17 +188,35 @@ body {
 	width: 100%;
 	height: 2px;
 	background: #afc6d6;
+	position: relative;
+}
+.quiz-progress-line:before, .quiz-progress-line:after {
+	content: "";
+	height: 8px;
+	width: 8px;
+	border: 2px solid white;
+	border-radius: 8px;
+	position: absolute;
+	top: -5px;
+}
+.quiz-progress-line:before {
+	left: -15px;
+		
+}
+.quiz-progress-line:after {
+	right: -15px;
 }
 
 /* quiz buttons*/
 .quiz-footer-navigation-button {
 	background: white;
 	border-radius: 50px;
-	height: 50px;
-	width: 50px;
+	height: 35px;
+	width: 35px;
 	border: none;
 	cursor: pointer;
-	font-size: 30px;
+	font-size: 18px;
+	margin: 0 10px;
 }
 .quiz-footer-navigation-button:focus{
 	outline: none;

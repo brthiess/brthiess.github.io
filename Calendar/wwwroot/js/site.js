@@ -152,13 +152,13 @@ function getFakeData() {
 				type: "normal",
 				answers: [
 					{
-						text: "answer 1"
+						text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet tortor eu justo sodales vehicula. Nulla auctor tempus arcu, a ultricies nulla commodo non. Phasellus ac lacus ut diam finibus interdum."
 					},
 					{
-						text: "answer 2"
+						text: "Vestibulum vitae hendrerit massa. Nam pretium nibh ac ex tempor, eu posuere ex mattis. Cras libero diam, congue quis venenatis vel, gravida nec purus."
 					},
 					{
-						text: "answer 3",
+						text: "Morbi eget tincidunt dolor. Nam egestas, leo id posuere laoreet, leo lectus auctor massa, vel convallis turpis enim at lectus.",
 						correct: true
 					}
 				],
@@ -171,13 +171,13 @@ function getFakeData() {
 				type: "normal",
 				answers: [
 					{
-						text: "answer 2234"
+						text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc."
 					},
 					{
-						text: "234234234 2"
+						text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante."
 					},
 					{
-						text: "answer 3",
+						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
 						correct: true
 					}
 				],
@@ -190,13 +190,13 @@ function getFakeData() {
 				type: "normal",
 				answers: [
 					{
-						text: "answer 1"
+						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem."
 					},
 					{
-						text: "answer 2"
+						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem."
 					},
 					{
-						text: "answer 3",
+						text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
 						correct: true
 					}
 				],
