@@ -1,8 +1,11 @@
-﻿function beginQuiz() {
+﻿var totalNumberOfQuestions = 0;
+function beginQuiz() {
 	setupQuizUI();
 	getQuestions(true).then(function (data) {
 		console.log(data);
 		populateQuizHtml(data);
+		totalNumberOfQuestions = data.questions.length;
+		goToQuestionNumber(data.activeQuestionNumber);
 	}).catch(function (error) {
 		console.log(error);
 	});
@@ -119,10 +122,24 @@ function goToQuestionNumber(questionNumber) {
 	$("[data-quiz-question-number=" + questionNumber + "]").removeClass("previous");
 	$("[data-quiz-question-number=" + questionNumber + "]").removeClass("next");
 
+	$("[data-quiz-current-question-number]").text(questionNumber);
+
 	enableAndDisableNavigationButtons();
+
+	setProgressBar(questionNumber);
 
 	console.log(questionNumber);
 }
+
+function setProgressBar(questionNumber) {
+	var percentageProgress = getPercentageProgress(questionNumber);
+	$("[data-quiz-percentage-progress]").css("left", "calc(" + percentageProgress * 100 + "% - 21px)");
+}
+
+function getPercentageProgress(questionNumber) {
+	return (questionNumber - 1) / (totalNumberOfQuestions - 1);
+}
+
 
 function enableAndDisableNavigationButtons() {
 	var currentQuestionNumber = getCurrentQuestionNumber();

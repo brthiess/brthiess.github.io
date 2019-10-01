@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calendar", "Calendar\Calendar.csproj", "{9ADA07E7-A208-4489-A02E-4313A28C0CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calendar", "Calendar\Calendar.csproj", "{9ADA07E7-A208-4489-A02E-4313A28C0CBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		LessCompiler = 9ada07e7-a208-4489-a02e-4313a28c0cbf
 		SolutionGuid = {8B160D9A-B3DC-4A19-AF36-88E159D39F0B}
 	EndGlobalSection
 EndGlobal

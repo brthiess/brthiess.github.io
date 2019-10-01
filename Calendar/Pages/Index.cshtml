@@ -20,6 +20,10 @@
 		<div class="quiz-footer" data-change-when-quiz-active>
 			<div class="quiz-progress-container">
 				<div class="quiz-progress">
+					<div data-change-when-quiz-active data-quiz-percentage-progress="0" class="quiz-progress-marker-container">
+						<div data-quiz-current-question-number  class="quiz-progress-marker">
+						</div>
+					</div>
 					<div class="quiz-progress-line"></div>
 				</div>
 			</div>
@@ -34,6 +38,7 @@
 	<section data-quiz-template class="quiz-container">
 		<div data-quiz-section data-quiz-question-number class="quiz-section-container">
 			<div class="quiz-inner-container">
+				<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
 				<div data-quiz-question-container class="quiz-question-container">
 					<h3 class="quiz-question" data-quiz-question></h3>
 				</div>
