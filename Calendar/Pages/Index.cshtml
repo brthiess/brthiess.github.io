@@ -30,8 +30,29 @@
 		</div>
 	</div>
 </section>
+<section class="quiz-results-container-container">
+	<div class="quiz-results-container">
+		<div class="quiz-results-header-container">
+			<h3 class="quiz-results-header-text">Quiz Results</h3>
+		</div>
+		<div class="quiz-placing-container">
+			<h5 data-quiz-place class="quiz-place">
+				3rd Place
+			</h5>
+			<p data-quiz-percentage class="quiz-percentage">55%</p>
+		</div>
+		<div class="quiz-ranking-container">
+			<ul class="quiz-ranking-list">
+				<li class="quiz-ranking-list-item">
+					<img class="rogue-ranking-image" src="test5.jpeg"/>
+					<p class="quiz-rogue-name">test</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
 <section class="templates hidden">
-	<section data-quiz-template>
+	<section data-quiz-template class="quiz-template">
 		<div data-quiz-section-template class="quiz-container">
 			<div data-quiz-section data-change-when-answered data-quiz-question-number class="quiz-section-container">
 				<div class="quiz-inner-container">
@@ -55,6 +76,9 @@
 				</div>
 			</div>
 		</div>
-		<button class="test">test</button>
+		<div class="navigation-buttons-container">
+			<button class="navigation-button previous-button" onclick="goToPreviousQuestion()">Previous</button>
+			<button class="navigation-button next-button" onclick="goToNextQuestion()">Next</button>
+		</div>
 	</section>
 </section>

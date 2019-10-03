@@ -128,6 +128,12 @@ body {
 	transform: scale(0);
 }
 /*Quiz Container*/
+.quiz-template {
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+	height: 100%;
+}
 .quiz-container-wrapper {
 	flex: 1;
 	display: flex;
@@ -302,8 +308,8 @@ body {
 
 .span-loop (@i) when (@i < 10) {
 	.rogue-answer-image-container:nth-child(@{i}) {
-		@k: @i + 5;
-		transition-delay: ~"0.@{k}s";
+		@k: (@i + 5) / 10;
+		transition-delay: ~"@{k}s";
 	}
 
 	.span-loop(@i + 1);
@@ -327,6 +333,46 @@ body {
 	font-size: 140px;
 	align-self: flex-end;
 	display: none; /*hide for now.  Not sure how we want to display this*/
+}
+
+/*navigation buttons*/
+.navigation-buttons-container {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 20px;
+	max-width: 1000px;
+	margin: auto;
+	width: 100%;
+}
+.navigation-button {
+	border: none;
+	padding: 10px 30px;
+	color: white;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 24px;
+	outline: none;
+	width: 170px;
+	position: relative;
+	&.disabled {
+		pointer-events:none;
+	}
+}
+.next-button {
+	background-color: cadetblue;
+
+	&.disabled {
+		background-color: #c2c2c2;
+	}
+}
+.previous-button {
+	background: none;
+	border: 3px solid cadetblue;
+	color: cadetblue;
+	&.disabled {
+		border-color: #c2c2c2;
+		color: #c2c2c2;
+	}
 }
 
 /* quiz footer*/

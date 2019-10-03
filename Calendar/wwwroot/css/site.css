@@ -89,6 +89,12 @@ body {
   transform: scale(0);
 }
 /*Quiz Container*/
+.quiz-template {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 100%;
+}
 .quiz-container-wrapper {
   flex: 1;
   display: flex;
@@ -264,19 +270,19 @@ body {
   transition-delay: 0.9s;
 }
 .rogue-answer-image-container:nth-child(5) {
-  transition-delay: 0.10s;
+  transition-delay: 1s;
 }
 .rogue-answer-image-container:nth-child(6) {
-  transition-delay: 0.11s;
+  transition-delay: 1.1s;
 }
 .rogue-answer-image-container:nth-child(7) {
-  transition-delay: 0.12s;
+  transition-delay: 1.2s;
 }
 .rogue-answer-image-container:nth-child(8) {
-  transition-delay: 0.13s;
+  transition-delay: 1.3s;
 }
 .rogue-answer-image-container:nth-child(9) {
-  transition-delay: 0.14s;
+  transition-delay: 1.4s;
 }
 .rogue-answer-image-container.answered {
   opacity: 1;
@@ -294,6 +300,44 @@ body {
   align-self: flex-end;
   display: none;
   /*hide for now.  Not sure how we want to display this*/
+}
+/*navigation buttons*/
+.navigation-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  max-width: 1000px;
+  margin: auto;
+  width: 100%;
+}
+.navigation-button {
+  border: none;
+  padding: 10px 30px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 24px;
+  outline: none;
+  width: 170px;
+  position: relative;
+}
+.navigation-button.disabled {
+  pointer-events: none;
+}
+.next-button {
+  background-color: cadetblue;
+}
+.next-button.disabled {
+  background-color: #c2c2c2;
+}
+.previous-button {
+  background: none;
+  border: 3px solid cadetblue;
+  color: cadetblue;
+}
+.previous-button.disabled {
+  border-color: #c2c2c2;
+  color: #c2c2c2;
 }
 /* quiz footer*/
 .quiz-footer-container {

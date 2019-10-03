@@ -167,16 +167,16 @@ function getPercentageProgress(questionNumber) {
 function enableAndDisableNavigationButtons() {
 	var currentQuestionNumber = getCurrentQuestionNumber();
 	if (!questionNumberExists(currentQuestionNumber + 1)) {
-		$(".quiz-footer-navigation-button.next").addClass("disabled");
+		$(".navigation-button.next-button").addClass("disabled");
 	}
 	if (questionNumberExists(currentQuestionNumber + 1)) {
-		$(".quiz-footer-navigation-button.next").removeClass("disabled");
+		$(".navigation-button.next-button").removeClass("disabled");
 	}
 	if (!questionNumberExists(currentQuestionNumber - 1)) {
-		$(".quiz-footer-navigation-button.previous").addClass("disabled");
+		$(".navigation-button.previous-button").addClass("disabled");
 	}
 	if (questionNumberExists(currentQuestionNumber - 1)) {
-		$(".quiz-footer-navigation-button.previous").removeClass("disabled");
+		$(".navigation-button.previous-button").removeClass("disabled");
 	}
 }
 
@@ -259,7 +259,29 @@ function getFakeData() {
 					{
 						text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
 						number: 2,
-						correct: false
+						correct: false,
+						rogues: [
+							{
+								name: "Bob Novella",
+								image: "test3.jpeg"
+							},
+							{
+								name: "Steve Novella",
+								image: "test4.jpeg"
+							},
+							{
+								name: "Jay Novella",
+								image: "test5.jpeg"
+							},
+							{
+								name: "Evan Bernstein",
+								image: "test3.jpeg"
+							},
+							{
+								name: "Cara Santa Maria",
+								image: "test3.jpeg"
+							}
+						]
 					},
 					{
 						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
@@ -278,17 +300,39 @@ function getFakeData() {
 					{
 						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
 						number: 1,
-						correct: false
+						correct: false,
+						rogues: [
+							{
+								name: "Bob Novella",
+								image: "test3.jpeg"
+							}
+						]
 					},
 					{
 						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
 						correct: true,
-						number: 2
+						number: 2,
+						rogues: [
+							{
+								name: "Evan Bernstein",
+								image: "test3.jpeg"
+							},
+							{
+								name: "Cara Santa Maria",
+								image: "test3.jpeg"
+							}
+						]
 					},
 					{
 						text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
 						number: 3,
-						correct: false
+						correct: false,
+						rogues: [
+							{
+								name: "Jay Novella",
+								image: "test5.jpeg"
+							}
+						]
 					}
 				],
 				question: "Pick the fiction",
