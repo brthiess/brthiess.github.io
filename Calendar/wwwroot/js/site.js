@@ -24,7 +24,8 @@ function getQuestions(createNewQuiz) {
 function populateQuizHtml(data) {
 	var $quiz = $("[data-quiz-template]").clone();
 	var quizHtml = populateQuizTemplates($($quiz).find("[data-quiz-section-template]"), data);
-	$(quizHtml).appendTo($("[data-quiz-container]"));
+	$($quiz).find("[data-quiz-section-template]").replaceWith(quizHtml);
+	$($quiz).appendTo($("[data-quiz-container]"));
 }
 
 function populateQuizTemplates(template, data) {
