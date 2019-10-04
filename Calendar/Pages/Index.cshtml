@@ -16,9 +16,9 @@
 </div>
 <section class="quiz-container-wrapper">
 	<div data-quiz-container class="quiz-container-container">
-		<section class="quiz-template hidden" id="quiz-template">
+		<section class="quiz-template" v-bind:class="{'active': active}" id="quiz-template">
 			<div class="quiz-container">
-				<div v-for="section in sections" v-bind:data-quiz-question-number="section.questionNumber" class="quiz-section-container">
+				<div v-for="section in sections" v-bind:data-quiz-question-number="section.questionNumber" class="quiz-section-container" v-bind:class="{'activeQuestion' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding}">
 					<div class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
 						<div data-quiz-question-container class="quiz-question-container">
@@ -38,8 +38,8 @@
 				</div>
 			</div>
 			<div class="navigation-buttons-container">
-				<button class="navigation-button previous-button" onclick="goToPreviousQuestion()">Previous</button>
-				<button class="navigation-button next-button" onclick="goToNextQuestion()">Next</button>
+				<button class="navigation-button previous-button" v-bind:class="{'disabled' : onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
+				<button class="navigation-button next-button" v-bind:class="{'disabled' : onLastQuestion}" onclick="goToNextQuestion()">Next</button>
 			</div>
 		</section>
 	</div>

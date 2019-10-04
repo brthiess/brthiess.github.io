@@ -1,10 +1,13 @@
 ﻿var totalNumberOfQuestions = 0;
 var quizResultsData = {};
 
+var quizData = null;
+
 function beginQuiz() {
 	setupQuizUI();
 	getQuestions(true).then(function (data) {
-		populateQuizHtml(data);
+		quizData = data;
+		initializeQuiz();
 		totalNumberOfQuestions = data.sections.length;
 		goToQuestionNumber(data.activeQuestionNumber);
 	}).catch(function (error) {
@@ -23,48 +26,45 @@ function getQuestions(createNewQuiz) {
 	});
 }
 
-function populateQuizHtml(data) {
+function initializeQuiz() {
 	var quizTemplate = new Vue({
 		el: '#quiz-template',
-		data: data
+		data: quizData
 	});
+	quizData.active = true;
 }
 
 function goToNextQuestion() {
-	nextQuestionNumber = getCurrentQuestionNumber() + 1;
+	nextQuestionNumber = quizData.activeQuestionNumber + 1;
 	goToQuestionNumber(nextQuestionNumber);
 }
 
 function goToPreviousQuestion() {
-	previousQuestionNumber = getCurrentQuestionNumber() + -1;
+	previousQuestionNumber = quizData.activeQuestionNumber - 1;
 	goToQuestionNumber(previousQuestionNumber);
 }
 
-function getCurrentQuestionNumber() {
-	return parseInt($(".activeQuestion").attr("data-quiz-question-number"));
-}
-
 function goToQuestionNumber(questionNumber) {
-	var currentQuestionNumber = getCurrentQuestionNumber();
-
-	if (questionNumber > currentQuestionNumber) {
-		$("[data-quiz-question-number=" + currentQuestionNumber + "]").addClass("previous");
-		$("[data-quiz-question-number=" + currentQuestionNumber + "]").removeClass("activeQuestion");
+	quizData.activeQuestionNumber = questionNumber;
+	for (var i = 0; i < quizData.sections.length; i++) {
+		if (quizData.sections[i].number < questionNumber) {
+			quizData.sections[i].isPreceding = true;
+			quizData.sections[i].isUpcoming = false;
+			quizData.sections[i].active = true;
+		}
+		else if (quizData.sections[i].number === questionNumber) {
+			quizData.sections[i].active = true;
+			quizData.sections[i].isPreceding = false;
+			quizData.sections[i].isUpcoming = false;
+		}
+		else if (quizData.sections[i].number > questionNumber) {
+			quizData.sections[i].active = false;
+			quizData.sections[i].isPreceding = false;
+			quizData.sections[i].isUpcoming = true;
+		}
 	}
-	else if (questionNumber < currentQuestionNumber) {
-		$("[data-quiz-question-number=" + currentQuestionNumber + "]").addClass("next");
-		$("[data-quiz-question-number=" + currentQuestionNumber + "]").removeClass("activeQuestion");
-	}
-
-	$("[data-quiz-question-number=" + questionNumber + "]").addClass("activeQuestion");
-	$("[data-quiz-question-number=" + questionNumber + "]").removeClass("previous");
-	$("[data-quiz-question-number=" + questionNumber + "]").removeClass("next");
-
-	$("[data-quiz-current-question-number]").text(questionNumber);
 
 	enableAndDisableNavigationButtons();
-
-	setProgressBar(questionNumber);
 
 	console.log(questionNumber);
 }
@@ -80,18 +80,17 @@ function getPercentageProgress(questionNumber) {
 
 
 function enableAndDisableNavigationButtons() {
-	var currentQuestionNumber = getCurrentQuestionNumber();
-	if (!questionNumberExists(currentQuestionNumber + 1)) {
-		$(".navigation-button.next-button").addClass("disabled");
+	if (quizData.activeQuestionNumber === quizData.sections.length) {
+		quizData.onLastQuestion = true;
+		quizData.onFirstQuestion = false;
 	}
-	if (questionNumberExists(currentQuestionNumber + 1)) {
-		$(".navigation-button.next-button").removeClass("disabled");
+	else if (quizData.activeQuestionNumber === 1) {
+		quizData.onLastQuestion = false;
+		quizData.onFirstQuestion = true;
 	}
-	if (!questionNumberExists(currentQuestionNumber - 1)) {
-		$(".navigation-button.previous-button").addClass("disabled");
-	}
-	if (questionNumberExists(currentQuestionNumber - 1)) {
-		$(".navigation-button.previous-button").removeClass("disabled");
+	else {
+		quizData.onLastQuestion = false;
+		quizData.onFirstQuestion = false;
 	}
 }
 
@@ -127,6 +126,9 @@ function updateQuizResults(element) {
 function getFakeData() {
 	var fakeData = {
 		activeQuestionNumber: 1,
+		active: false,
+		onFirstQuestion: true,
+		onLastQuestion: false,
 		sections: [
 			{
 				type: "normal",
@@ -220,7 +222,8 @@ function getFakeData() {
 				question: "Pick the fiction",
 				number: 2,
 				active: false,
-				answered: false
+				answered: false,
+				isUpcoming: true
 			},
 			{
 				type: "normal",
@@ -266,7 +269,8 @@ function getFakeData() {
 				question: "Pick the fiction",
 				number: 3,
 				active: false,
-				answered: false
+				answered: false,
+				isUpcoming: true
 			}
 		]
 	};

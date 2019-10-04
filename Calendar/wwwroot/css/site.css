@@ -90,10 +90,13 @@ body {
 }
 /*Quiz Container*/
 .quiz-template {
-  display: flex;
   flex-flow: column;
   justify-content: space-between;
   height: 100%;
+  display: none;
+}
+.quiz-template.active {
+  display: flex;
 }
 .quiz-container-wrapper {
   flex: 1;
@@ -120,10 +123,10 @@ body {
   grid-row-start: 1;
   grid-row-end: 2;
 }
-.quiz-section-container.previous {
+.quiz-section-container.preceding {
   transform: translateX(-100%);
 }
-.quiz-section-container.next {
+.quiz-section-container.upcoming {
   transform: translateX(100%);
 }
 .quiz-inner-container {
