@@ -1,9 +1,11 @@
 ﻿var totalNumberOfQuestions = 0;
+var quizResultsData = {};
+
 function beginQuiz() {
 	setupQuizUI();
 	getQuestions(true).then(function (data) {
 		populateQuizHtml(data);
-		totalNumberOfQuestions = data.questions.length;
+		totalNumberOfQuestions = data.sections.length;
 		goToQuestionNumber(data.activeQuestionNumber);
 	}).catch(function (error) {
 		console.log(error);
@@ -22,97 +24,10 @@ function getQuestions(createNewQuiz) {
 }
 
 function populateQuizHtml(data) {
-	var $quiz = $("[data-quiz-template]").clone();
-	var quizHtml = populateQuizTemplates($($quiz).find("[data-quiz-section-template]"), data);
-	$($quiz).find("[data-quiz-section-template]").replaceWith(quizHtml);
-	$($quiz).appendTo($("[data-quiz-container]"));
-}
-
-function populateQuizTemplates(template, data) {
-	var quizHtml = $(template).clone().html("");
-	for (var i = 0; i < data.questions.length; i++) {
-		var quizSection = populateQuizSection($(template).find("[data-quiz-section]"), data.questions[i], data.activeQuestionNumber);
-		$(quizSection).appendTo($(quizHtml));
-	}
-	return quizHtml;
-}
-
-function populateQuizSection(sectionTemplate, questionData, activeQuestionNumber) {
-	var quizSection = $(sectionTemplate).clone();
-
-	var quizQuestion = populateQuizQuestion($(sectionTemplate).find("[data-quiz-question-container]"), questionData.question);
-	$(quizSection).find("[data-quiz-question-container]").replaceWith($(quizQuestion));	
-
-	var quizAnswers = populateQuizQuestionAnswers($(sectionTemplate).find("[data-quiz-answers]"), questionData.answers);
-	$(quizSection).find("[data-quiz-answers]").replaceWith($(quizAnswers));	
-
-	var quizNumber = populateQuizQuestionNumber($(sectionTemplate).find("[data-quiz-question-number-text]"), questionData.number);
-	$(quizSection).find("[data-quiz-question-number-text]").replaceWith($(quizNumber));	
-
-	if (activeQuestionNumber < questionData.number) {
-		$(quizSection).addClass("next");
-	}
-	else if (activeQuestionNumber > questionData.number) {
-		$(quizSection).addClass("previous");
-	}
-	else {
-		$(quizSection).addClass("activeQuestion");
-	}
-
-	$(quizSection).attr("data-quiz-question-number", questionData.number);
-
-	return quizSection;
-}
-
-function populateQuizQuestionAnswers(answersTemplate, answersData) {
-	var answersHtml = $(answersTemplate).clone().html("");
-	for (var i = 0; i < answersData.length; i++) {
-		var answerHtml = populateAnswer($(answersTemplate).find("[data-quiz-answer]"), answersData[i]);
-		$(answerHtml).appendTo($(answersHtml));
-	}
-	return answersHtml;
-}
-
-function populateQuizQuestionNumber(numberTemplate, questionNumber) {
-	var numberHtml = $(numberTemplate).clone().html("");
-
-	$(numberHtml).text(questionNumber);
-	return numberHtml;
-}
-
-function populateQuizQuestion(questionTemplate, questionText) {
-	var questionHtml = questionTemplate.clone();
-	$(questionHtml).find("[data-quiz-question]").text(questionText);
-	return questionHtml;
-}
-
-function populateAnswer(answerTemplate, answer) {
-	var answerHtml = answerTemplate.clone();
-
-	var rogueAnswers = getRogueAnswersHtml($(answerTemplate).find("[data-quiz-rogue-answers]"), answer.rogues);
-	$(answerHtml).find("[data-quiz-rogue-answers]").replaceWith(rogueAnswers);
-
-	$(answerHtml).find("[data-quiz-answer-text]").text(answer.text);
-	$(answerHtml).attr("data-answer-number", answer.number);
-	$(answerHtml).attr("data-answer-correct", answer.correct);
-	return answerHtml;
-}
-
-function getRogueAnswersHtml(rogueAnswersTemplate, rogueAnswers) {
-	var rogueAnswersHtml = rogueAnswersTemplate.clone().html("");
-	if (typeof (rogueAnswers) !== 'undefined') {
-		for (var i = 0; i < rogueAnswers.length; i++) {
-			var rogueAnswer = populateRogueAnswer($(rogueAnswersTemplate).find("[data-quiz-rogue-answer]"), rogueAnswers[i]);
-			$(rogueAnswer).appendTo($(rogueAnswersHtml));
-		}
-	}
-	return rogueAnswersHtml;
-}
-
-function populateRogueAnswer(rogueAnswerTemplate, rogueAnswer) {
-	var rogueAnswerHtml = rogueAnswerTemplate.clone();
-	$(rogueAnswerHtml).find("[data-quiz-rogue-image]").attr("src", "/images/" + rogueAnswer.image);
-	return rogueAnswerHtml;
+	var quizTemplate = new Vue({
+		el: '#quiz-template',
+		data: data
+	});
 }
 
 function goToNextQuestion() {
@@ -185,21 +100,34 @@ function questionNumberExists(questionNumber) {
 }
 
 $("body").on("click", "[data-quiz-answer]", function () {
-	var quizSection = $(this).closest("[data-quiz-section]");
+	updateUIAfterAnswering(this);
+	updateQuizResults(this);
+});
+
+function updateUIAfterAnswering(element) {
+	var quizSection = $(element).closest("[data-quiz-section]");
 	if ($(quizSection).hasClass("answered")) {
 		return;
 	}
 	$(quizSection).find("[data-change-when-answered]").addClass("answered");
 	$(quizSection).addClass("answered");
-	if ($(this).attr("data-answer-correct") === "false") {
-		$(this).addClass("incorrect");
+	if ($(element).attr("data-answer-correct") === "false") {
+		$(element).addClass("incorrect");
 	}
-});
+}
+
+function updateQuizResults(element) {
+	
+}
+
+
+
+
 
 function getFakeData() {
 	var fakeData = {
 		activeQuestionNumber: 1,
-		questions: [
+		sections: [
 			{
 				type: "normal",
 				answers: [
