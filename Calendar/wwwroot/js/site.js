@@ -29,7 +29,25 @@ function getQuestions(createNewQuiz) {
 function initializeQuiz() {
 	var quizTemplate = new Vue({
 		el: '#quiz-template',
-		data: quizData
+		data: quizData,
+		methods: {
+			answerQuestion: function (questionNumber, answerNumber) {
+				if (quizData.sections[questionNumber].answered === true) {
+					return;
+				}
+				quizData.sections[questionNumber].answered = true;
+				quizData.sections[questionNumber].answers[answerNumber].picked = true;
+				if (quizData.sections[questionNumber].answers[answerNumber].correct) {
+					quizData.sections[questionNumber].answeredCorrectly = true;
+				}
+				else {
+					quizData.sections[questionNumber].answeredCorrectly = false;
+				}
+
+				console.log(questionNumber);
+				console.log(answerNumber);
+			}
+		}
 	});
 	quizData.active = true;
 }
@@ -46,24 +64,13 @@ function goToPreviousQuestion() {
 
 function goToQuestionNumber(questionNumber) {
 	quizData.activeQuestionNumber = questionNumber;
-	for (var i = 0; i < quizData.sections.length; i++) {
-		if (quizData.sections[i].number < questionNumber) {
-			quizData.sections[i].isPreceding = true;
-			quizData.sections[i].isUpcoming = false;
-			quizData.sections[i].active = true;
-		}
-		else if (quizData.sections[i].number === questionNumber) {
-			quizData.sections[i].active = true;
-			quizData.sections[i].isPreceding = false;
-			quizData.sections[i].isUpcoming = false;
-		}
-		else if (quizData.sections[i].number > questionNumber) {
-			quizData.sections[i].active = false;
-			quizData.sections[i].isPreceding = false;
-			quizData.sections[i].isUpcoming = true;
-		}
-	}
 
+	Object.keys(quizData.sections).forEach(function (dataQuestionNumber) {
+		quizData.sections[dataQuestionNumber].isPreceding = (questionNumber > quizData.sections[dataQuestionNumber].number ? true : false);
+		quizData.sections[dataQuestionNumber].isUpcoming = (questionNumber < quizData.sections[dataQuestionNumber].number ? true : false);
+		quizData.sections[dataQuestionNumber].active = (questionNumber === quizData.sections[dataQuestionNumber].number ? true : false);
+	});
+	
 	enableAndDisableNavigationButtons();
 
 	console.log(questionNumber);
@@ -92,10 +99,6 @@ function enableAndDisableNavigationButtons() {
 		quizData.onLastQuestion = false;
 		quizData.onFirstQuestion = false;
 	}
-}
-
-function questionNumberExists(questionNumber) {
-	return $("[data-quiz-question-number=" + questionNumber + "]").length > 0;
 }
 
 $("body").on("click", "[data-quiz-answer]", function () {
@@ -129,14 +132,15 @@ function getFakeData() {
 		active: false,
 		onFirstQuestion: true,
 		onLastQuestion: false,
-		sections: [
-			{
+		sections: {
+			1: {
 				type: "normal",
-				answers: [
-					{
+				answers: {
+					1: {
 						text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet tortor eu justo sodales vehicula. Nulla auctor tempus arcu, a ultricies nulla commodo non. Phasellus ac lacus ut diam finibus interdum.",
 						number: 1,
 						correct: false,
+						picked: false,
 						rogues: [
 							{
 								name: "Bob Novella",
@@ -152,15 +156,17 @@ function getFakeData() {
 							}
 						]
 					},
-					{
+					2: {
 						text: "Vestibulum vitae hendrerit massa. Nam pretium nibh ac ex tempor, eu posuere ex mattis. Cras libero diam, congue quis venenatis vel, gravida nec purus.",
 						number: 2,
-						correct: false
+						correct: false,
+						picked: false
 					},
-					{
+					3: {
 						text: "Morbi eget tincidunt dolor. Nam egestas, leo id posuere laoreet, leo lectus auctor massa, vel convallis turpis enim at lectus.",
 						number: 3,
 						correct: true,
+						picked: false,
 						rogues: [
 							{
 								name: "Evan Bernstein",
@@ -172,21 +178,22 @@ function getFakeData() {
 							}
 						]
 					}
-				],
+				},
 				question: "Pick the fiction",
 				number: 1,
 				active: true,
-				answered: false
+				answered: false,
+				answeredCorrectly: false
 			},
-			{
+			2: {
 				type: "normal",
-				answers: [
-					{
+				answers: {
+					1: {
 						text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc.",
 						number: 1,
 						correct: false
 					},
-					{
+					2: {
 						text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
 						number: 2,
 						correct: false,
@@ -213,22 +220,23 @@ function getFakeData() {
 							}
 						]
 					},
-					{
+					3: {
 						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
 						correct: true,
 						number: 3
 					}
-				],
+				},
 				question: "Pick the fiction",
 				number: 2,
 				active: false,
 				answered: false,
-				isUpcoming: true
+				isUpcoming: true,
+				answeredCorrectly: false
 			},
-			{
+			3: {
 				type: "normal",
-				answers: [
-					{
+				answers: {
+					1: {
 						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
 						number: 1,
 						correct: false,
@@ -239,7 +247,7 @@ function getFakeData() {
 							}
 						]
 					},
-					{
+					2: {
 						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
 						correct: true,
 						number: 2,
@@ -254,7 +262,7 @@ function getFakeData() {
 							}
 						]
 					},
-					{
+					3: {
 						text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
 						number: 3,
 						correct: false,
@@ -265,14 +273,15 @@ function getFakeData() {
 							}
 						]
 					}
-				],
+				},
 				question: "Pick the fiction",
 				number: 3,
 				active: false,
 				answered: false,
-				isUpcoming: true
+				isUpcoming: true,
+				answeredCorrectly: false
 			}
-		]
+		}
 	};
 	return fakeData;
 }

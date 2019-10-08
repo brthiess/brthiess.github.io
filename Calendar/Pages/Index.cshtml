@@ -18,14 +18,14 @@
 	<div data-quiz-container class="quiz-container-container">
 		<section class="quiz-template" v-bind:class="{'active': active}" id="quiz-template">
 			<div class="quiz-container">
-				<div v-for="section in sections" v-bind:data-quiz-question-number="section.questionNumber" class="quiz-section-container" v-bind:class="{'activeQuestion' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding}">
+				<div v-for="section in sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
 					<div class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
-						<div data-quiz-question-container class="quiz-question-container">
+						<div class="quiz-question-container">
 							<h3 class="quiz-question">{{section.question}}</h3>
 						</div>
-						<ul data-quiz-answers class="quiz-answers-container">
-							<li v-for="answer in section.answers" v-bind:data-answer-correct="answer.correct" class="quiz-answer">
+						<ul class="quiz-answers-container">
+							<li v-for="answer in section.answers" v-on:click="answerQuestion(section.number, answer.number)" class="quiz-answer" v-bind:class="{'answer-correct' : answer.correct, 'answer-incorrect' : !answer.correct, 'this-answer-picked' : answer.picked}">
 								<ul class="rogue-answers-container">
 									<li v-for="rogueAnswer in answer.rogueAnswers" class="rogue-answer-image-container">
 										<img class="rogue-answer-image" v-bind:src="rogueAnswer.image" />
