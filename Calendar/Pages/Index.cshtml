@@ -21,6 +21,11 @@
 				<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
 					<div class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
+						<div class="quiz-date-number-container">
+							<p class="quiz-episode-number">Episode: #{{section.episodeNumber}}</p>
+							<p class="quiz-question-date">, {{section.date}}</p>
+
+						</div>
 						<div class="quiz-question-container">
 							<h3 class="quiz-question">{{section.question}}</h3>
 						</div>
@@ -47,7 +52,7 @@
 		<div class="quiz-footer" v-bind:class="{'active' : quizData.active}">
 			<div class="quiz-progress-container">
 				<div class="quiz-progress">
-					<div class="quiz-progress-marker-container">
+					<div class="quiz-progress-marker-container" v-bind:style="{left: 'calc(' + quizData.quizProgressPercentage + '% - 21px)'}" v-bind:class="{'active' : quizData.active}">
 						<div class="quiz-progress-marker">
 							{{quizData.activeQuestionNumber}}
 						</div>

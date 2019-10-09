@@ -40,16 +40,16 @@ function initializeQuiz() {
 		data: quizDataContainer,
 		methods: {
 			answerQuestion: function (questionNumber, answerNumber) {
-				if (quizData.sections[questionNumber].answered === true) {
+				if (quizDataContainer.quizData.sections[questionNumber].answered === true) {
 					return;
 				}
-				quizData.sections[questionNumber].answered = true;
-				quizData.sections[questionNumber].answers[answerNumber].picked = true;
-				if (quizData.sections[questionNumber].answers[answerNumber].correct) {
-					quizData.sections[questionNumber].answeredCorrectly = true;
+				quizDataContainer.quizData.sections[questionNumber].answered = true;
+				quizDataContainer.quizData.sections[questionNumber].answers[answerNumber].picked = true;
+				if (quizDataContainer.quizData.sections[questionNumber].answers[answerNumber].correct) {
+					quizDataContainer.quizData.sections[questionNumber].answeredCorrectly = true;
 				}
 				else {
-					quizData.sections[questionNumber].answeredCorrectly = false;
+					quizDataContainer.quizData.sections[questionNumber].answeredCorrectly = false;
 				}
 
 				console.log(questionNumber);
@@ -60,27 +60,38 @@ function initializeQuiz() {
 }
 
 function goToNextQuestion() {
-	nextQuestionNumber = quizData.activeQuestionNumber + 1;
+	nextQuestionNumber = quizDataContainer.quizData.activeQuestionNumber + 1;
 	goToQuestionNumber(nextQuestionNumber);
 }
 
 function goToPreviousQuestion() {
-	previousQuestionNumber = quizData.activeQuestionNumber - 1;
+	previousQuestionNumber = quizDataContainer.quizData.activeQuestionNumber - 1;
 	goToQuestionNumber(previousQuestionNumber);
 }
 
 function goToQuestionNumber(questionNumber) {
-	quizData.activeQuestionNumber = questionNumber;
+	quizDataContainer.quizData.activeQuestionNumber = questionNumber;
 
-	Object.keys(quizData.sections).forEach(function (dataQuestionNumber) {
-		quizData.sections[dataQuestionNumber].isPreceding = (questionNumber > quizData.sections[dataQuestionNumber].number ? true : false);
-		quizData.sections[dataQuestionNumber].isUpcoming = (questionNumber < quizData.sections[dataQuestionNumber].number ? true : false);
-		quizData.sections[dataQuestionNumber].active = (questionNumber === quizData.sections[dataQuestionNumber].number ? true : false);
+	Object.keys(quizDataContainer.quizData.sections).forEach(function (dataQuestionNumber) {
+		quizDataContainer.quizData.sections[dataQuestionNumber].isPreceding = (questionNumber > quizDataContainer.quizData.sections[dataQuestionNumber].number ? true : false);
+		quizDataContainer.quizData.sections[dataQuestionNumber].isUpcoming = (questionNumber < quizDataContainer.quizData.sections[dataQuestionNumber].number ? true : false);
+		quizDataContainer.quizData.sections[dataQuestionNumber].active = (questionNumber === quizDataContainer.quizData.sections[dataQuestionNumber].number ? true : false);
 	});
 	
 	enableAndDisableNavigationButtons();
+	quizDataContainer.quizData.quizProgressPercentage = getQuizProgressPercentage();
 
 	console.log(questionNumber);
+}
+
+function getQuizProgressPercentage() {
+	var numberOfQuestions = Object.keys(quizDataContainer.quizData.sections).length;
+	if (numberOfQuestions > 0) {
+		return (quizDataContainer.quizData.activeQuestionNumber - 1) / (numberOfQuestions) * 100;
+	}
+	else {
+		return 0;
+	}
 }
 
 function setProgressBar(questionNumber) {
@@ -94,17 +105,17 @@ function getPercentageProgress(questionNumber) {
 
 
 function enableAndDisableNavigationButtons() {
-	if (quizData.activeQuestionNumber === quizData.sections.length) {
-		quizData.onLastQuestion = true;
-		quizData.onFirstQuestion = false;
+	if (quizDataContainer.quizData.activeQuestionNumber === quizDataContainer.quizData.sections.length) {
+		quizDataContainer.quizData.onLastQuestion = true;
+		quizDataContainer.quizData.onFirstQuestion = false;
 	}
-	else if (quizData.activeQuestionNumber === 1) {
-		quizData.onLastQuestion = false;
-		quizData.onFirstQuestion = true;
+	else if (quizDataContainer.quizData.activeQuestionNumber === 1) {
+		quizDataContainer.quizData.onLastQuestion = false;
+		quizDataContainer.quizData.onFirstQuestion = true;
 	}
 	else {
-		quizData.onLastQuestion = false;
-		quizData.onFirstQuestion = false;
+		quizDataContainer.quizData.onLastQuestion = false;
+		quizDataContainer.quizData.onFirstQuestion = false;
 	}
 }
 
@@ -136,171 +147,172 @@ function updateQuizResults(element) {
 
 function getFakeData() {
 	var fakeData = {
-			activeQuestionNumber: 1,
-			active: true,
-			onFirstQuestion: true,
-			onLastQuestion: false,
-			sections: {
-				1: {
-					type: "normal",
-					date: "August 24, 2019",
-					episodeNumber: 737,
-					answers: {
-						1: {
-							text: "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a readio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements.",
-							number: 1,
-							correct: false,
-							picked: false,
-							rogueAnswers: [
-								{
-									name: "Bob Novella",
-									image: "/images/test3.jpeg"
-								},
-								{
-									name: "Steve Novella",
-									image: "/images/test4.jpeg"
-								},
-								{
-									name: "Jay Novella",
-									image: "/images/test5.jpeg"
-								}
-							]
-						},
-						2: {
-							text: "Soviet biologist, Ilya Ivanov, sucessfully created a human chimp hybrid, although the infant only lived 3 weeks.",
-							number: 2,
-							correct: true,
-							picked: false
-						},
-						3: {
-							text: "Russian physician Sergei Bugenenko, kept a decapitated dogs head alive and awake with extra corporeal blood perfusion.",
-							number: 3,
-							correct: false,
-							picked: false,
-							rogueAnswers: [
-								{
-									name: "Evan Bernstein",
-									image: "/images/test3.jpeg"
-								},
-								{
-									name: "Cara Santa Maria",
-									image: "/images/test3.jpeg"
-								}
-							]
-						}
+		activeQuestionNumber: 1,
+		active: true,
+		onFirstQuestion: true,
+		onLastQuestion: false,
+		quizProgressPercentage: 0,
+		sections: {
+			1: {
+				type: "normal",
+				date: "August 24, 2019",
+				episodeNumber: 737,
+				answers: {
+					1: {
+						text: "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a readio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements.",
+						number: 1,
+						correct: false,
+						picked: false,
+						rogueAnswers: [
+							{
+								name: "Bob Novella",
+								image: "/images/test3.jpeg"
+							},
+							{
+								name: "Steve Novella",
+								image: "/images/test4.jpeg"
+							},
+							{
+								name: "Jay Novella",
+								image: "/images/test5.jpeg"
+							}
+						]
 					},
-					question: "Pick the fiction",
-					number: 1,
-					active: true,
-					answered: false,
-					answeredCorrectly: false
+					2: {
+						text: "Soviet biologist, Ilya Ivanov, sucessfully created a human chimp hybrid, although the infant only lived 3 weeks.",
+						number: 2,
+						correct: true,
+						picked: false
+					},
+					3: {
+						text: "Russian physician Sergei Bugenenko, kept a decapitated dogs head alive and awake with extra corporeal blood perfusion.",
+						number: 3,
+						correct: false,
+						picked: false,
+						rogueAnswers: [
+							{
+								name: "Evan Bernstein",
+								image: "/images/test3.jpeg"
+							},
+							{
+								name: "Cara Santa Maria",
+								image: "/images/test3.jpeg"
+							}
+						]
+					}
 				},
-				2: {
-					type: "normal",
-					date: "September 14, 2019",
-					episodeNumber: 740,
-					answers: {
-						1: {
-							text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc.",
-							number: 1,
-							correct: false
-						},
-						2: {
-							text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
-							number: 2,
-							correct: false,
-							rogueAnswers: [
-								{
-									name: "Bob Novella",
-									image: "/images/test3.jpeg"
-								},
-								{
-									name: "Steve Novella",
-									image: "/images/test4.jpeg"
-								},
-								{
-									name: "Jay Novella",
-									image: "/images/test5.jpeg"
-								},
-								{
-									name: "Evan Bernstein",
-									image: "/images/test3.jpeg"
-								},
-								{
-									name: "Cara Santa Maria",
-									image: "/images/test3.jpeg"
-								}
-							]
-						},
-						3: {
-							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
-							correct: true,
-							number: 3
-						}
+				question: "Pick the fiction",
+				number: 1,
+				active: true,
+				answered: false,
+				answeredCorrectly: false
+			},
+			2: {
+				type: "normal",
+				date: "September 14, 2019",
+				episodeNumber: 740,
+				answers: {
+					1: {
+						text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc.",
+						number: 1,
+						correct: false
 					},
-					question: "Pick the fiction",
-					number: 2,
-					active: false,
-					answered: false,
-					isUpcoming: true,
-					answeredCorrectly: false
+					2: {
+						text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
+						number: 2,
+						correct: false,
+						rogueAnswers: [
+							{
+								name: "Bob Novella",
+								image: "/images/test3.jpeg"
+							},
+							{
+								name: "Steve Novella",
+								image: "/images/test4.jpeg"
+							},
+							{
+								name: "Jay Novella",
+								image: "/images/test5.jpeg"
+							},
+							{
+								name: "Evan Bernstein",
+								image: "/images/test3.jpeg"
+							},
+							{
+								name: "Cara Santa Maria",
+								image: "/images/test3.jpeg"
+							}
+						]
+					},
+					3: {
+						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
+						correct: true,
+						number: 3
+					}
 				},
-				3: {
-					type: "normal",
-					date: "September 21, 2019",
-					episodeNumber: 741,
-					answers: {
-						1: {
-							text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
-							number: 1,
-							correct: false,
-							rogueAnswers: [
-								{
-									name: "Bob Novella",
-									image: "/images/test3.jpeg"
-								}
-							]
-						},
-						2: {
-							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti.",
-							correct: true,
-							number: 2,
-							rogueAnswers: [
-								{
-									name: "Evan Bernstein",
-									image: "test3.jpeg"
-								},
-								{
-									name: "Cara Santa Maria",
-									image: "/images/test3.jpeg"
-								}
-							]
-						},
-						3: {
-							text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
-							number: 3,
-							correct: false,
-							rogueAnswers: [
-								{
-									name: "Jay Novella",
-									image: "/images/test5.jpeg"
-								}
-							]
-						},
-						4: {
-							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
-							number: 4,
-							correct: false
-						}
+				question: "Pick the fiction",
+				number: 2,
+				active: false,
+				answered: false,
+				isUpcoming: true,
+				answeredCorrectly: false
+			},
+			3: {
+				type: "normal",
+				date: "September 21, 2019",
+				episodeNumber: 741,
+				answers: {
+					1: {
+						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
+						number: 1,
+						correct: false,
+						rogueAnswers: [
+							{
+								name: "Bob Novella",
+								image: "/images/test3.jpeg"
+							}
+						]
 					},
-					question: "Pick the fiction",
-					number: 3,
-					active: false,
-					answered: false,
-					isUpcoming: true,
-					answeredCorrectly: false
-				}
+					2: {
+						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti.",
+						correct: true,
+						number: 2,
+						rogueAnswers: [
+							{
+								name: "Evan Bernstein",
+								image: "test3.jpeg"
+							},
+							{
+								name: "Cara Santa Maria",
+								image: "/images/test3.jpeg"
+							}
+						]
+					},
+					3: {
+						text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
+						number: 3,
+						correct: false,
+						rogueAnswers: [
+							{
+								name: "Jay Novella",
+								image: "/images/test5.jpeg"
+							}
+						]
+					},
+					4: {
+						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
+						number: 4,
+						correct: false
+					}
+				},
+				question: "Pick the fiction",
+				number: 3,
+				active: false,
+				answered: false,
+				isUpcoming: true,
+				answeredCorrectly: false
 			}
+		}
 	};
 	return fakeData;
 }
