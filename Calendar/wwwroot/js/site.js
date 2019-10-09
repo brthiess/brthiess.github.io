@@ -1,13 +1,21 @@
 ﻿var totalNumberOfQuestions = 0;
-var quizResultsData = {};
-
-var quizData = null;
+var quizTemplate;
+var quizDataContainer = {
+	quizData: {
+		activeQuestionNumber: 1,
+		active: false,
+		onFirstQuestion: true,
+		onLastQuestion: false,
+		sections: {}
+	}
+};
 
 function beginQuiz() {
 	setupQuizUI();
+	initializeQuiz();
 	getQuestions(true).then(function (data) {
-		quizData = data;
-		initializeQuiz();
+		quizDataContainer.quizData = data;
+		quizTemplate.quizData = quizDataContainer.quizData;
 		totalNumberOfQuestions = data.sections.length;
 		goToQuestionNumber(data.activeQuestionNumber);
 	}).catch(function (error) {
@@ -27,9 +35,9 @@ function getQuestions(createNewQuiz) {
 }
 
 function initializeQuiz() {
-	var quizTemplate = new Vue({
+	quizTemplate = new Vue({
 		el: '#quiz-template',
-		data: quizData,
+		data: quizDataContainer,
 		methods: {
 			answerQuestion: function (questionNumber, answerNumber) {
 				if (quizData.sections[questionNumber].answered === true) {
@@ -49,7 +57,6 @@ function initializeQuiz() {
 			}
 		}
 	});
-	quizData.active = true;
 }
 
 function goToNextQuestion() {
@@ -126,162 +133,174 @@ function updateQuizResults(element) {
 
 
 
+
 function getFakeData() {
 	var fakeData = {
-		activeQuestionNumber: 1,
-		active: false,
-		onFirstQuestion: true,
-		onLastQuestion: false,
-		sections: {
-			1: {
-				type: "normal",
-				answers: {
-					1: {
-						text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet tortor eu justo sodales vehicula. Nulla auctor tempus arcu, a ultricies nulla commodo non. Phasellus ac lacus ut diam finibus interdum.",
-						number: 1,
-						correct: false,
-						picked: false,
-						rogues: [
-							{
-								name: "Bob Novella",
-								image: "test3.jpeg"
-							},
-							{
-								name: "Steve Novella",
-								image: "test4.jpeg"
-							},
-							{
-								name: "Jay Novella",
-								image: "test5.jpeg"
-							}
-						]
+			activeQuestionNumber: 1,
+			active: true,
+			onFirstQuestion: true,
+			onLastQuestion: false,
+			sections: {
+				1: {
+					type: "normal",
+					date: "August 24, 2019",
+					episodeNumber: 737,
+					answers: {
+						1: {
+							text: "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a readio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements.",
+							number: 1,
+							correct: false,
+							picked: false,
+							rogueAnswers: [
+								{
+									name: "Bob Novella",
+									image: "/images/test3.jpeg"
+								},
+								{
+									name: "Steve Novella",
+									image: "/images/test4.jpeg"
+								},
+								{
+									name: "Jay Novella",
+									image: "/images/test5.jpeg"
+								}
+							]
+						},
+						2: {
+							text: "Soviet biologist, Ilya Ivanov, sucessfully created a human chimp hybrid, although the infant only lived 3 weeks.",
+							number: 2,
+							correct: true,
+							picked: false
+						},
+						3: {
+							text: "Russian physician Sergei Bugenenko, kept a decapitated dogs head alive and awake with extra corporeal blood perfusion.",
+							number: 3,
+							correct: false,
+							picked: false,
+							rogueAnswers: [
+								{
+									name: "Evan Bernstein",
+									image: "/images/test3.jpeg"
+								},
+								{
+									name: "Cara Santa Maria",
+									image: "/images/test3.jpeg"
+								}
+							]
+						}
 					},
-					2: {
-						text: "Vestibulum vitae hendrerit massa. Nam pretium nibh ac ex tempor, eu posuere ex mattis. Cras libero diam, congue quis venenatis vel, gravida nec purus.",
-						number: 2,
-						correct: false,
-						picked: false
-					},
-					3: {
-						text: "Morbi eget tincidunt dolor. Nam egestas, leo id posuere laoreet, leo lectus auctor massa, vel convallis turpis enim at lectus.",
-						number: 3,
-						correct: true,
-						picked: false,
-						rogues: [
-							{
-								name: "Evan Bernstein",
-								image: "test3.jpeg"
-							},
-							{
-								name: "Cara Santa Maria",
-								image: "test3.jpeg"
-							}
-						]
-					}
+					question: "Pick the fiction",
+					number: 1,
+					active: true,
+					answered: false,
+					answeredCorrectly: false
 				},
-				question: "Pick the fiction",
-				number: 1,
-				active: true,
-				answered: false,
-				answeredCorrectly: false
-			},
-			2: {
-				type: "normal",
-				answers: {
-					1: {
-						text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc.",
-						number: 1,
-						correct: false
+				2: {
+					type: "normal",
+					date: "September 14, 2019",
+					episodeNumber: 740,
+					answers: {
+						1: {
+							text: "Donec varius diam dignissim, placerat nisl at, imperdiet turpis. Cras eu pellentesque dolor, ut fermentum nunc.",
+							number: 1,
+							correct: false
+						},
+						2: {
+							text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
+							number: 2,
+							correct: false,
+							rogueAnswers: [
+								{
+									name: "Bob Novella",
+									image: "/images/test3.jpeg"
+								},
+								{
+									name: "Steve Novella",
+									image: "/images/test4.jpeg"
+								},
+								{
+									name: "Jay Novella",
+									image: "/images/test5.jpeg"
+								},
+								{
+									name: "Evan Bernstein",
+									image: "/images/test3.jpeg"
+								},
+								{
+									name: "Cara Santa Maria",
+									image: "/images/test3.jpeg"
+								}
+							]
+						},
+						3: {
+							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
+							correct: true,
+							number: 3
+						}
 					},
-					2: {
-						text: "Nunc ex metus, lacinia facilisis lacinia nec, finibus id ante.",
-						number: 2,
-						correct: false,
-						rogues: [
-							{
-								name: "Bob Novella",
-								image: "test3.jpeg"
-							},
-							{
-								name: "Steve Novella",
-								image: "test4.jpeg"
-							},
-							{
-								name: "Jay Novella",
-								image: "test5.jpeg"
-							},
-							{
-								name: "Evan Bernstein",
-								image: "test3.jpeg"
-							},
-							{
-								name: "Cara Santa Maria",
-								image: "test3.jpeg"
-							}
-						]
-					},
-					3: {
-						text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
-						correct: true,
-						number: 3
-					}
+					question: "Pick the fiction",
+					number: 2,
+					active: false,
+					answered: false,
+					isUpcoming: true,
+					answeredCorrectly: false
 				},
-				question: "Pick the fiction",
-				number: 2,
-				active: false,
-				answered: false,
-				isUpcoming: true,
-				answeredCorrectly: false
-			},
-			3: {
-				type: "normal",
-				answers: {
-					1: {
-						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
-						number: 1,
-						correct: false,
-						rogues: [
-							{
-								name: "Bob Novella",
-								image: "test3.jpeg"
-							}
-						]
+				3: {
+					type: "normal",
+					date: "September 21, 2019",
+					episodeNumber: 741,
+					answers: {
+						1: {
+							text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
+							number: 1,
+							correct: false,
+							rogueAnswers: [
+								{
+									name: "Bob Novella",
+									image: "/images/test3.jpeg"
+								}
+							]
+						},
+						2: {
+							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti.",
+							correct: true,
+							number: 2,
+							rogueAnswers: [
+								{
+									name: "Evan Bernstein",
+									image: "test3.jpeg"
+								},
+								{
+									name: "Cara Santa Maria",
+									image: "/images/test3.jpeg"
+								}
+							]
+						},
+						3: {
+							text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
+							number: 3,
+							correct: false,
+							rogueAnswers: [
+								{
+									name: "Jay Novella",
+									image: "/images/test5.jpeg"
+								}
+							]
+						},
+						4: {
+							text: "Curabitur vitae velit quis dolor tempor lobortis in eu nunc. Nullam aliquam, libero rutrum convallis lacinia, elit tortor tincidunt dolor, venenatis cursus elit elit ut neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. ",
+							number: 4,
+							correct: false
+						}
 					},
-					2: {
-						text: "Donec elementum nibh ac pharetra fermentum. Nunc sollicitudin, arcu nec accumsan pellentesque, tellus nisl pharetra nunc, id pharetra leo nulla nec lorem.",
-						correct: true,
-						number: 2,
-						rogues: [
-							{
-								name: "Evan Bernstein",
-								image: "test3.jpeg"
-							},
-							{
-								name: "Cara Santa Maria",
-								image: "test3.jpeg"
-							}
-						]
-					},
-					3: {
-						text: "In varius tellus sed ullamcorper sagittis. Ut a eleifend diam. In eget commodo neque. Donec ac turpis sit amet sapien rhoncus cursus et finibus urna.",
-						number: 3,
-						correct: false,
-						rogues: [
-							{
-								name: "Jay Novella",
-								image: "test5.jpeg"
-							}
-						]
-					}
-				},
-				question: "Pick the fiction",
-				number: 3,
-				active: false,
-				answered: false,
-				isUpcoming: true,
-				answeredCorrectly: false
+					question: "Pick the fiction",
+					number: 3,
+					active: false,
+					answered: false,
+					isUpcoming: true,
+					answeredCorrectly: false
+				}
 			}
-		}
 	};
 	return fakeData;
 }

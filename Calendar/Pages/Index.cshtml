@@ -14,11 +14,11 @@
 		</div>
 	</div>
 </div>
-<section class="quiz-container-wrapper">
+<section class="quiz-container-wrapper" id="quiz-template">
 	<div data-quiz-container class="quiz-container-container">
-		<section class="quiz-template" v-bind:class="{'active': active}" id="quiz-template">
+		<section class="quiz-template" v-bind:class="{'active': quizData.active}" >
 			<div class="quiz-container">
-				<div v-for="section in sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
+				<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
 					<div class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
 						<div class="quiz-question-container">
@@ -27,7 +27,7 @@
 						<ul class="quiz-answers-container">
 							<li v-for="answer in section.answers" v-on:click="answerQuestion(section.number, answer.number)" class="quiz-answer" v-bind:class="{'answer-correct' : answer.correct, 'answer-incorrect' : !answer.correct, 'this-answer-picked' : answer.picked}">
 								<ul class="rogue-answers-container">
-									<li v-for="rogueAnswer in answer.rogueAnswers" class="rogue-answer-image-container">
+									<li v-for="rogueAnswer in answer.rogueAnswers" class="rogue-answer-image-container" v-bind:class="{'answered' : section.answered}">
 										<img class="rogue-answer-image" v-bind:src="rogueAnswer.image" />
 									</li>
 								</ul>
@@ -38,17 +38,18 @@
 				</div>
 			</div>
 			<div class="navigation-buttons-container">
-				<button class="navigation-button previous-button" v-bind:class="{'disabled' : onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
-				<button class="navigation-button next-button" v-bind:class="{'disabled' : onLastQuestion}" onclick="goToNextQuestion()">Next</button>
+				<button class="navigation-button previous-button" v-bind:class="{'disabled' : quizData.onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
+				<button class="navigation-button next-button" v-bind:class="{'disabled' : quizData.onLastQuestion}" onclick="goToNextQuestion()">Next</button>
 			</div>
 		</section>
 	</div>
 	<div class="quiz-footer-container">
-		<div class="quiz-footer" data-change-when-quiz-active>
+		<div class="quiz-footer" v-bind:class="{'active' : quizData.active}">
 			<div class="quiz-progress-container">
 				<div class="quiz-progress">
-					<div data-change-when-quiz-active data-quiz-percentage-progress="0" class="quiz-progress-marker-container">
-						<div data-quiz-current-question-number  class="quiz-progress-marker">
+					<div class="quiz-progress-marker-container">
+						<div class="quiz-progress-marker">
+							{{quizData.activeQuestionNumber}}
 						</div>
 					</div>
 					<div class="quiz-progress-line"></div>
@@ -57,7 +58,7 @@
 		</div>
 	</div>
 </section>
-<section class="quiz-results-container-container" id="quiz-results">
+<section class="quiz-results-container-container hidden" id="quiz-results">
 	<div class="quiz-results-container">
 		<div class="quiz-results-header-container">
 			<h3 class="quiz-results-header-text">Quiz Results</h3>
