@@ -16,10 +16,10 @@
 </div>
 <section class="quiz-container-wrapper" id="quiz-template">
 	<div data-quiz-container class="quiz-container-container">
-		<section class="quiz-template" v-bind:class="{'active': quizData.active}" >
+		<section class="quiz-template" v-bind:class="{'active': quizData.active}">
 			<div class="quiz-container">
 				<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
-					<div class="quiz-inner-container">
+					<section v-if="section.sectionType != 'results'" class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
 						<div class="quiz-date-number-container">
 							<p class="quiz-episode-number">Episode: #{{section.episodeNumber}}</p>
@@ -39,12 +39,33 @@
 								<p class="quiz-answer-text">{{answer.text}}</p>
 							</li>
 						</ul>
-					</div>
+					</section>
+					<section v-if="section.sectionType == 'results'"  class="quiz-results-container-container" v-bind:class="{'hidden' : !quizData.finished}" id="quiz-results">
+						<div class="quiz-results-container">
+							<div class="quiz-results-header-container">
+								<h3 class="quiz-results-header-text">Quiz Results</h3>
+							</div>
+							<div class="quiz-placing-container">
+								<h5 class="quiz-place">
+									{{placing}}
+								</h5>
+								<p class="quiz-percentage">{{percentage}}</p>
+							</div>
+							<div class="quiz-ranking-container">
+								<ul class="quiz-ranking-list">
+									<li v-for="quizRanking in quizRankings" class="quiz-ranking-list-item">
+										<img class="rogue-ranking-image" v-bind:src="quizRanking.rogueImage" />
+										<p class="quiz-rogue-name">{{quizRanking.rogueName}}</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 			<div class="navigation-buttons-container">
 				<button class="navigation-button previous-button" v-bind:class="{'disabled' : quizData.onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
-				<button class="navigation-button next-button" v-bind:class="{'disabled' : quizData.onLastQuestion}" onclick="goToNextQuestion()">Next</button>
+				<button class="navigation-button next-button" v-bind:class="{'disabled' : !nextQuestionIsAvailable}" onclick="goToNextQuestion()">Next</button>
 			</div>
 		</section>
 	</div>
@@ -63,25 +84,5 @@
 		</div>
 	</div>
 </section>
-<section class="quiz-results-container-container hidden" id="quiz-results">
-	<div class="quiz-results-container">
-		<div class="quiz-results-header-container">
-			<h3 class="quiz-results-header-text">Quiz Results</h3>
-		</div>
-		<div class="quiz-placing-container">
-			<h5 class="quiz-place">
-				{{placing}}
-			</h5>
-			<p class="quiz-percentage">{{percentage}}</p>
-		</div>
-		<div class="quiz-ranking-container">
-			<ul class="quiz-ranking-list">
-				<li v-for="quizRanking in quizRankings" class="quiz-ranking-list-item">
-					<img class="rogue-ranking-image" v-bind:src="quizRanking.rogueImage" />
-					<p class="quiz-rogue-name">{{quizRanking.rogueName}}</p>
-				</li>
-			</ul>
-		</div>
-	</div>
-</section>
+
 

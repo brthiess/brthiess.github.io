@@ -55,8 +55,24 @@ function initializeQuiz() {
 				console.log(questionNumber);
 				console.log(answerNumber);
 			}
+		},
+		computed: {
+			nextQuestionIsAvailable: function () {
+				return !onLastQuestion() &&
+					Object.keys(quizDataContainer.quizData.sections).length > 0 &&
+					typeof quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber] !== 'undefined' &&
+					quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber].answered;
+			}
 		}
 	});
+}
+
+function onLastQuestion() {
+	if (Object.keys(quizDataContainer.quizData.sections).length === quizDataContainer.quizData.activeQuestionNumber) {
+		return true;
+	}
+	return false;
+	
 }
 
 function goToNextQuestion() {
@@ -155,6 +171,7 @@ function getFakeData() {
 		sections: {
 			1: {
 				type: "normal",
+				sectionType: "question",
 				date: "August 24, 2019",
 				episodeNumber: 737,
 				answers: {
@@ -209,6 +226,7 @@ function getFakeData() {
 			},
 			2: {
 				type: "normal",
+				sectionType: "question",
 				date: "September 14, 2019",
 				episodeNumber: 740,
 				answers: {
@@ -259,6 +277,7 @@ function getFakeData() {
 			},
 			3: {
 				type: "normal",
+				sectionType: "question",
 				date: "September 21, 2019",
 				episodeNumber: 741,
 				answers: {
@@ -311,6 +330,9 @@ function getFakeData() {
 				answered: false,
 				isUpcoming: true,
 				answeredCorrectly: false
+			},
+			'results': {
+				sectionType: 'results'
 			}
 		}
 	};
