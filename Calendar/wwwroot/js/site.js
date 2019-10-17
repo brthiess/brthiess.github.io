@@ -1,5 +1,4 @@
-﻿var totalNumberOfQuestions = 0;
-var quizTemplate;
+﻿var quizTemplate;
 var quizDataContainer = {
 	quizData: {
 		activeQuestionNumber: 1,
@@ -16,7 +15,6 @@ function beginQuiz() {
 	getQuestions(true).then(function (data) {
 		quizDataContainer.quizData = data;
 		quizTemplate.quizData = quizDataContainer.quizData;
-		totalNumberOfQuestions = data.sections.length;
 		goToQuestionNumber(data.activeQuestionNumber);
 	}).catch(function (error) {
 		console.log(error);
@@ -51,9 +49,21 @@ function initializeQuiz() {
 				else {
 					quizDataContainer.quizData.sections[questionNumber].answeredCorrectly = false;
 				}
-
-				console.log(questionNumber);
-				console.log(answerNumber);
+				quizDataContainer.quizData.results.percentage = getQuizPercentage();
+			},
+			ordinalSuffixOf: function(i) {
+				var j = i % 10,
+				k = i % 100;
+				if(j === 1 && k !== 11) {
+					return i + "st";
+				}
+				if (j === 2 && k !== 12) {
+					return i + "nd";
+				}
+				if (j === 3 && k !== 13) {
+					return i + "rd";
+				}
+				return i + "th";
 			}
 		},
 		computed: {
@@ -62,6 +72,9 @@ function initializeQuiz() {
 					Object.keys(quizDataContainer.quizData.sections).length > 0 &&
 					typeof quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber] !== 'undefined' &&
 					quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber].answered;
+			},
+			finished: function () {
+				return onLastQuestion();
 			}
 		}
 	});
@@ -71,9 +84,10 @@ function onLastQuestion() {
 	if (Object.keys(quizDataContainer.quizData.sections).length === quizDataContainer.quizData.activeQuestionNumber) {
 		return true;
 	}
-	return false;
-	
+	return false;	
 }
+
+
 
 function goToNextQuestion() {
 	nextQuestionNumber = quizDataContainer.quizData.activeQuestionNumber + 1;
@@ -110,15 +124,6 @@ function getQuizProgressPercentage() {
 	}
 }
 
-function setProgressBar(questionNumber) {
-	var percentageProgress = getPercentageProgress(questionNumber);
-	$("[data-quiz-percentage-progress]").css("left", "calc(" + percentageProgress * 100 + "% - 21px)");
-}
-
-function getPercentageProgress(questionNumber) {
-	return (questionNumber - 1) / (totalNumberOfQuestions - 1);
-}
-
 
 function enableAndDisableNavigationButtons() {
 	if (quizDataContainer.quizData.activeQuestionNumber === quizDataContainer.quizData.sections.length) {
@@ -135,25 +140,18 @@ function enableAndDisableNavigationButtons() {
 	}
 }
 
-$("body").on("click", "[data-quiz-answer]", function () {
-	updateUIAfterAnswering(this);
-	updateQuizResults(this);
-});
-
-function updateUIAfterAnswering(element) {
-	var quizSection = $(element).closest("[data-quiz-section]");
-	if ($(quizSection).hasClass("answered")) {
-		return;
-	}
-	$(quizSection).find("[data-change-when-answered]").addClass("answered");
-	$(quizSection).addClass("answered");
-	if ($(element).attr("data-answer-correct") === "false") {
-		$(element).addClass("incorrect");
-	}
-}
-
-function updateQuizResults(element) {
-	
+function getQuizPercentage() {
+	var numberOfQuestionsAnsweredCorrectly = 0;
+	var totalNumberOfQuestions = 0;
+	Object.keys(quizDataContainer.quizData.sections).forEach(function (dataQuestionNumber) {
+		if (quizDataContainer.quizData.sections[dataQuestionNumber].sectionType === 'question') {
+			if (quizDataContainer.quizData.sections[dataQuestionNumber].answeredCorrectly) {
+				numberOfQuestionsAnsweredCorrectly += 1;
+			}
+			totalNumberOfQuestions += 1;
+		}
+	});
+	return 100 * (numberOfQuestionsAnsweredCorrectly / totalNumberOfQuestions);
 }
 
 
@@ -168,6 +166,7 @@ function getFakeData() {
 		onFirstQuestion: true,
 		onLastQuestion: false,
 		quizProgressPercentage: 0,
+		finished: false,
 		sections: {
 			1: {
 				type: "normal",
@@ -331,9 +330,16 @@ function getFakeData() {
 				isUpcoming: true,
 				answeredCorrectly: false
 			},
-			'results': {
-				sectionType: 'results'
+			4: {
+				sectionType: 'results',
+				active: false,
+				number: 4
 			}
+		},
+		results: {
+			placing: 1,
+			percentage: 100,
+			quizRankings: []
 		}
 	};
 	return fakeData;

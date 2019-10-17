@@ -18,7 +18,7 @@
 	<div data-quiz-container class="quiz-container-container">
 		<section class="quiz-template" v-bind:class="{'active': quizData.active}">
 			<div class="quiz-container">
-				<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
+				<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'quiz-results-container-wrapper' : section.sectionType == 'results', 'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
 					<section v-if="section.sectionType != 'results'" class="quiz-inner-container">
 						<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
 						<div class="quiz-date-number-container">
@@ -40,22 +40,22 @@
 							</li>
 						</ul>
 					</section>
-					<section v-if="section.sectionType == 'results'"  class="quiz-results-container-container" v-bind:class="{'hidden' : !quizData.finished}" id="quiz-results">
+					<section v-if="section.sectionType == 'results'"  class="quiz-results-container-container" id="quiz-results">
 						<div class="quiz-results-container">
-							<div class="quiz-results-header-container">
+							<div class="quiz-results-header-container" v-bind:class="{'active' : section.active}">
 								<h3 class="quiz-results-header-text">Quiz Results</h3>
 							</div>
-							<div class="quiz-placing-container">
+							<div class="quiz-placing-container" v-bind:class="{'active' : section.active}">
 								<h5 class="quiz-place">
-									{{placing}}
+									{{ordinalSuffixOf(quizData.results.placing)}} Place
 								</h5>
-								<p class="quiz-percentage">{{percentage}}</p>
+								<p class="quiz-percentage">{{Math.round(quizData.results.percentage)}}%</p>
 							</div>
-							<div class="quiz-ranking-container">
+							<div class="quiz-ranking-container" v-bind:class="{'active' : section.active}">
 								<ul class="quiz-ranking-list">
-									<li v-for="quizRanking in quizRankings" class="quiz-ranking-list-item">
+									<li v-for="quizRanking in quizData.results.quizRankings" class="quiz-ranking-list-item">
 										<img class="rogue-ranking-image" v-bind:src="quizRanking.rogueImage" />
-										<p class="quiz-rogue-name">{{quizRanking.rogueName}}</p>
+										<p class="quiz-rogue-name">{{quizRankings.rogueName}}</p>
 									</li>
 								</ul>
 							</div>
