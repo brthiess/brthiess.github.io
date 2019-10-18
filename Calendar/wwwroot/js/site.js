@@ -49,7 +49,9 @@ function initializeQuiz() {
 				else {
 					quizDataContainer.quizData.sections[questionNumber].answeredCorrectly = false;
 				}
-				quizDataContainer.quizData.results.percentage = getQuizPercentage();
+				if (onLastQuestion()) {
+					tabulateResults();
+				}
 			},
 			ordinalSuffixOf: function(i) {
 				var j = i % 10,
@@ -67,8 +69,8 @@ function initializeQuiz() {
 			}
 		},
 		computed: {
-			nextQuestionIsAvailable: function () {
-				return !onLastQuestion() &&
+			nextSectionIsAvailable: function () {
+				return !onLastSection() &&
 					Object.keys(quizDataContainer.quizData.sections).length > 0 &&
 					typeof quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber] !== 'undefined' &&
 					quizDataContainer.quizData.sections[quizDataContainer.quizData.activeQuestionNumber].answered;
@@ -81,12 +83,23 @@ function initializeQuiz() {
 }
 
 function onLastQuestion() {
+	if (Object.keys(quizDataContainer.quizData.sections).length - 1 === quizDataContainer.quizData.activeQuestionNumber) {
+		return true;
+	}
+	return false;	
+}
+
+function onLastSection() {
 	if (Object.keys(quizDataContainer.quizData.sections).length === quizDataContainer.quizData.activeQuestionNumber) {
 		return true;
 	}
 	return false;	
 }
 
+function tabulateResults() {
+	quizDataContainer.quizData.results.percentage = getQuizPercentage();
+	quizDataContainer.quizData.results.quizRankings.push("asdf");
+}
 
 
 function goToNextQuestion() {
@@ -336,6 +349,33 @@ function getFakeData() {
 				number: 4
 			}
 		},
+		rogues: [
+			{
+				name: "Bob Novella",
+				percentage: "87",
+				rank: "1"
+			},
+			{
+				name: "Jay Novella",
+				percentage: "87",
+				rank: "2"
+			},
+			{
+				name: "You",
+				percentage: getQuizPercentage(),
+				rank: "3"
+			},
+			{
+				name: "Cara Santa Maria",
+				percentage: "76",
+				rank: "4"
+			},
+			{
+				name: "Evan Bernstein",
+				percentage: "54",
+				rank: "5"
+			}
+		],
 		results: {
 			placing: 1,
 			percentage: 100,
