@@ -166,6 +166,43 @@ body {
 .main-button.quiz-active {
 	transform: scale(0);
 }
+.rogue-list {
+	list-style: none;
+	display: flex;
+	padding: 0;
+}
+
+.rogue-list-item {
+	width: 100px;
+	height: 100px;
+	overflow: hidden;
+	border-radius: 50px;
+	margin: 0 10px;
+	animation-duration: 3s;
+	animation-name: fadeInAndUpSimulataneously;
+	opacity: 0;
+	animation-fill-mode: forwards;
+}
+
+@iterations: 1;
+
+.rogue-list-item-loop (@i) when (@i < 10) {
+	.rogue-list-item:nth-child(@{i}) {
+		@k: (@i + 5) / 10;
+		animation-delay: ~"@{k}s";
+	}
+
+	.rogue-list-item-loop(@i + 1);
+}
+
+.rogue-list-item-loop (@iterations);
+
+.rogue-list-item-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
 /*Quiz Container*/
 .quiz-template {
 	flex-flow: column;
