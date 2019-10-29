@@ -98,7 +98,11 @@ function onLastSection() {
 
 function tabulateResults() {
 	quizDataContainer.quizData.results.percentage = getQuizPercentage();
-	quizDataContainer.quizData.results.quizRankings.push("asdf");
+	quizDataContainer.quizData.results.quizRankings.forEach(function (element) {
+		if (element.type === "user") {
+			element.percentage = getQuizPercentage();
+		}
+	});
 }
 
 
@@ -311,7 +315,7 @@ function getFakeData() {
 						rogueAnswers: [
 							{
 								name: "Evan Bernstein",
-								image: "test3.jpeg"
+								image: "/images/test3.jpeg"
 							},
 							{
 								name: "Cara Santa Maria",
@@ -349,37 +353,46 @@ function getFakeData() {
 				number: 4
 			}
 		},
-		rogues: [
-			{
-				name: "Bob Novella",
-				percentage: "87",
-				rank: "1"
-			},
-			{
-				name: "Jay Novella",
-				percentage: "87",
-				rank: "2"
-			},
-			{
-				name: "You",
-				percentage: getQuizPercentage(),
-				rank: "3"
-			},
-			{
-				name: "Cara Santa Maria",
-				percentage: "76",
-				rank: "4"
-			},
-			{
-				name: "Evan Bernstein",
-				percentage: "54",
-				rank: "5"
-			}
-		],
 		results: {
 			placing: 1,
 			percentage: 100,
-			quizRankings: []
+			quizRankings: [
+				{
+					type: "rogue",
+					name: "Bob Novella",
+					percentage: "87",
+					rank: "1",
+					image: "/images/test1.jpeg"
+				},
+				{
+					type: "rogue",
+					name: "Jay Novella",
+					percentage: "87",
+					rank: "2",
+					image: "/images/test2.jpeg"
+				},
+				{
+					type: "user",
+					name: "You",
+					percentage: "100",
+					rank: "3",
+					image: "/images/test3.jpeg"
+				},
+				{
+					type: "rogue",
+					name: "Cara Santa Maria",
+					percentage: "76",
+					rank: "4",
+					image: "/images/test4.jpeg"
+				},
+				{
+					type: "rogue",
+					name: "Evan Bernstein",
+					percentage: "54",
+					rank: "5",
+					image: "/images/test5.jpeg"
+				}
+			]
 		}
 	};
 	return fakeData;

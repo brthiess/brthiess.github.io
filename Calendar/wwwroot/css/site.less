@@ -122,26 +122,34 @@ body {
 }
 
 .title-container.quiz-active {
-	background: #125c90;
-	border-bottom-left-radius: 90px;
-	height: 90px;
-	border-bottom-right-radius: 90px;
-	width: 180px;
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	padding-top: 20px;
 	margin: 0;
 }
 
 .title {
 	font-size: 72px;
 	transition: all 0.3s;
+	position: relative;
+	&:after {
+		content: '';
+		position: absolute;
+		width: calc(100% + 100px);
+		height: calc(100% + 300px);
+		left: -50px;
+		z-index: -1;
+		top: -100px;
+		border-bottom-left-radius: 500px;
+		border-bottom-right-radius: 500px;
+		transition: background 0.3s;
+	}
 }
 
+
 .title.quiz-active {
-	font-size: 17px;
 	color: white;
+	transform: scale(0.3);
+	&:after {
+		background-color: #145d90;
+	}
 }
 
 
@@ -176,6 +184,12 @@ body {
 	animation-delay: 0.1s;
 	animation-fill-mode: forwards;
 	font-weight: 100;
+
+	&.quiz-active {
+		animation-name: fadeOutAndShrink;
+		animation-duration: 1s;
+		animation-delay: 0s;
+	}
 }
 
 .button {
@@ -563,6 +577,35 @@ body {
 .quiz-percentage {
 	order: 1;
 	font-size: 100px;
+}
+
+.quiz-ranking-list {
+	list-style: none;
+}
+.quiz-ranking-list-item {
+	background: white;
+	margin: 20px 0;
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
+	padding: 10px 30px;
+	display: flex;
+	align-items: center;
+}
+.quiz-ranking-percentage {
+	order: 1;
+}
+.rogue-ranking-image {
+	order: 2;
+	height: 70px;
+	width: 70px;
+	border-radius: 50px;
+	object-fit: cover;
+	object-position: center;
+}
+.quiz-rogue-name {
+	order: 3;
+}
+.quiz-ranking-place {
+	order: 4;
 }
 
 /*navigation buttons*/
