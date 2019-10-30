@@ -63,7 +63,7 @@
 								<ul class="quiz-ranking-list">
 									<li v-for="quizRanking in quizData.results.quizRankings" class="quiz-ranking-list-item">
 										<img class="rogue-ranking-image" v-bind:src="quizRanking.image" />
-										<p class="quiz-ranking-percentage">{{quizRanking.percentage}}</p>
+										<p class="quiz-ranking-percentage">{{Math.round(quizRanking.percentage)}}%</p>
 										<p class="quiz-rogue-name">{{quizRanking.name}}</p>
 										<p class="quiz-ranking-place">{{ordinalSuffixOf(quizRanking.rank)}}</p>
 									</li>
