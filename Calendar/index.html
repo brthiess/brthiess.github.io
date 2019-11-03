@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>SGU Quiz - Science or Fiction</title>
+	<link rel="stylesheet" href="/css/site.css" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="container body-content">
+		<div class="landing-container" data-change-when-quiz-active>
+			<div class="title-button-container" data-change-when-quiz-active>
+				<div class="title-container" data-change-when-quiz-active>
+					<h1 class="title" data-change-when-quiz-active>Science or Fiction</h1>
+				</div>
+				<h4 class="subtitle" data-change-when-quiz-active>Compete against the rogues with a series of Science or Fiction questions and see how you stack up!</h4>
+				<ul class="rogue-list" data-change-when-quiz-active>
+					<li class="rogue-list-item" data-change-when-quiz-active><img  class="rogue-list-item-image" src="/images/test3.jpeg" /></li>
+					<li class="rogue-list-item" data-change-when-quiz-active><img  class="rogue-list-item-image" src="/images/test4.jpeg" /></li>
+					<li class="rogue-list-item" data-change-when-quiz-active><img  class="rogue-list-item-image" src="/images/test5.jpeg" /></li>
+					<li class="rogue-list-item" data-change-when-quiz-active><img  class="rogue-list-item-image" src="/images/test6.jpeg" /></li>
+					<li class="rogue-list-item" data-change-when-quiz-active><img  class="rogue-list-item-image" src="/images/test7.jpeg" /></li>
+				</ul>
+				<div data-change-when-quiz-active class="begin-quiz-button-container">
+					<button class="button main-button" onclick="beginQuiz();" data-change-when-quiz-active>Begin Quiz</button>
+				</div>
+			</div>
+		</div>
+		<section class="quiz-container-wrapper" id="quiz-template" v-bind:class="{'active': quizData.active}">
+			<div data-quiz-container class="quiz-container-container">
+				<section class="quiz-template" v-bind:class="{'active': quizData.active}">
+					<div class="quiz-container">
+						<div v-for="section in quizData.sections" class="quiz-section-container" v-bind:class="{'quiz-results-container-wrapper' : section.sectionType == 'results', 'active-question' : section.active, 'upcoming' : section.isUpcoming, 'preceding' : section.isPreceding, 'section-unanswered' : !section.answered, 'section-answered' : section.answered, 'section-answered-correctly' : section.answered && section.answeredCorrectly, 'section-answered-incorrectly' : section.answered && !section.answeredCorrectly}">
+							<section v-if="section.sectionType != 'results'" class="quiz-inner-container">
+								<h3 class="quiz-question-type-text">Multiple Choice Question</h3>
+								<div class="quiz-date-number-container">
+									<p class="quiz-episode-number">Episode: #{{section.episodeNumber}}</p>
+									<p class="quiz-question-date">, {{section.date}}</p>
+
+								</div>
+								<div class="quiz-question-container">
+									<h3 class="quiz-question">{{section.question}}</h3>
+								</div>
+								<ul class="quiz-answers-container">
+									<li v-for="answer in section.answers" v-on:click="answerQuestion(section.number, answer.number)" class="quiz-answer" v-bind:class="{'answer-correct' : answer.correct, 'answer-incorrect' : !answer.correct, 'this-answer-picked' : answer.picked}">
+										<ul class="rogue-answers-container">
+											<li v-for="rogueAnswer in answer.rogueAnswers" class="rogue-answer-image-container" v-bind:class="{'answered' : section.answered}">
+												<img class="rogue-answer-image" v-bind:src="rogueAnswer.image" />
+											</li>
+										</ul>
+										<p class="quiz-answer-text">{{answer.text}}</p>
+									</li>
+								</ul>
+							</section>
+							<section v-if="section.sectionType == 'results'"  class="quiz-results-container-container" id="quiz-results">
+								<div class="quiz-results-container">
+									<div class="quiz-results-header-container" v-bind:class="{'active' : section.active}">
+										<h3 class="quiz-results-header-text">Quiz Results</h3>
+									</div>
+									<div class="quiz-placing-container" v-bind:class="{'active' : section.active}">
+										<h5 class="quiz-place">
+											{{ordinalSuffixOf(quizData.results.placing)}} Place
+										</h5>
+										<p class="quiz-percentage">{{Math.round(quizData.results.percentage)}}%</p>
+									</div>
+									<div class="quiz-ranking-container" v-bind:class="{'active' : section.active}">
+										<ul class="quiz-ranking-list">
+											<li v-for="quizRanking in quizData.results.quizRankings" class="quiz-ranking-list-item">
+												<img class="rogue-ranking-image" v-bind:src="quizRanking.image" />
+												<p class="quiz-ranking-percentage">{{Math.round(quizRanking.percentage)}}%</p>
+												<p class="quiz-rogue-name">{{quizRanking.name}}</p>
+												<p class="quiz-ranking-place">{{ordinalSuffixOf(quizRanking.rank)}}</p>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+					<div class="navigation-buttons-container">
+						<button class="navigation-button previous-button" v-bind:class="{'disabled' : quizData.onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
+						<button class="navigation-button next-button" v-bind:class="{'disabled' : !nextSectionIsAvailable}" onclick="goToNextQuestion()">Next</button>
+					</div>
+				</section>
+			</div>
+			<div class="quiz-footer-container" v-bind:class="{'active' : quizData.active}">
+				<div class="quiz-footer" v-bind:class="{'active' : quizData.active}">
+					<div class="quiz-progress-container">
+						<div class="quiz-progress">
+							<div class="quiz-progress-marker-container" v-bind:style="{left: 'calc(' + quizData.quizProgressPercentage + '% - 21px)'}" v-bind:class="{'active' : quizData.active}">
+								<div class="quiz-progress-marker">
+									{{quizData.activeQuestionNumber}}
+								</div>
+							</div>
+							<div class="quiz-progress-line"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="/js/site.js"></script>
+</body>
+</html>
+

@@ -56,6 +56,7 @@
 
 @keyframes fadeOutAndShrink {
 	0% {
+		max-height: 200px;
 		opacity: 1;
 		transform: scale(1);
 	}
@@ -66,6 +67,7 @@
 	}
 
 	100% {
+		max-height: 0px;
 		opacity: 0;
 		padding: 0;
 		margin: 0;
@@ -111,7 +113,6 @@ body {
 .body-content {
 	flex-flow: column;
 	display: flex;
-	padding-bottom: 200px;
 }
 
 /*Main Title and Button*/
@@ -130,42 +131,39 @@ body {
 	font-size: 72px;
 	transition: all 0.3s;
 	position: relative;
-	&:after {
-		content: '';
-		position: absolute;
-		width: calc(100% + 100px);
-		height: calc(100% + 300px);
-		left: -50px;
-		z-index: -1;
-		top: -100px;
-		border-bottom-left-radius: 500px;
-		border-bottom-right-radius: 500px;
-		transition: background 0.3s;
+	@media @tablets {
+		font-size: 40px;
 	}
 }
 
 
 .title.quiz-active {
-	color: white;
-	transform: scale(0.3);
-	&:after {
-		background-color: #145d90;
-	}
+	color: #777;
+	font-size: 20px;
 }
 
 
 .landing-container {
+	overflow: hidden;
 	display: flex;
 	flex-flow: column;
 	width: 100%;
 	justify-content: center;
-	transform: translate(0, 30vh);
+	transform: translate(0, 20vh);
 	transition: all 0.3s;
-}
-
-.landing-container.quiz-active {
-	transform: translate(0, 0);
-	margin-bottom: 20px;
+	&.quiz-active {
+		transform: translate(0, 0);
+		margin: 40px 0;
+		@media @laptops {
+			margin: 20px 0;
+		}
+		@media @tablets {
+			margin: 10px 0;
+		}
+	}
+	@media @tablets {
+		transform: translate(0, 10vh);
+	}
 }
 
 .title-button-container {
@@ -297,8 +295,12 @@ body {
 }
 .quiz-container-wrapper {
 	flex: 1;
-	display: flex;
 	flex-flow: column;
+	padding-bottom: 200px;
+	display: none;
+	&.active {
+		display: flex;
+	}
 }
 
 .quiz-container-container {
@@ -311,8 +313,8 @@ body {
 	height: 100%;
 	position: relative;
 	display: grid;
-	grid-template-columns: auto;
-	grid-template-rows: auto;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
 }
 
 .quiz-section-container {
@@ -352,6 +354,7 @@ body {
 	width: 300px;
 	border-bottom: 1px solid #333;
 	padding-bottom: 10px;
+	font-size: 18px;
 	@media @smartphones {
 		font-size: 16px;
 		padding-bottom: 5px;
@@ -364,6 +367,10 @@ body {
 	display: flex;
 	margin: 5px 0;
 	color: #666;
+	font-size: 14px;
+	@media @smartphones {
+		font-size: 13px;
+	}
 }
 .quiz-episode-number {
 	color: #333;
@@ -375,7 +382,7 @@ body {
 	margin: 40px 0;
 
 	@media @tablets {
-		margin: 30px 0;
+		margin: 25px 0;
 	}
 
 	@media @mini-tablets {
@@ -389,8 +396,11 @@ body {
 
 .quiz-question {
 	font-size: 32px;
+	@media @tablets {
+		font-size: 25px;
+	}
 	@media @smartphones {
-		font-size: 22px;
+		font-size: 20px;
 	}
 }
 
@@ -418,15 +428,11 @@ body {
 	position: relative;
 
 	@media @tablets {
-		margin: 15px 0;
-	}
-
-	@media @mini-tablets {
 		margin: 10px 0;
 		font-size: 15px;
 		padding: 15px 30px;
 	}
-
+	
 	@media @smartphones {
 		font-size: 14px;
 		padding: 10px 20px;
@@ -682,10 +688,13 @@ body {
 /* quiz footer*/
 .quiz-footer-container {
 	margin-top: auto;
-	overflow: hidden;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
+	visibility: hidden;
+	&.active {
+		visibility: visible;
+	}
 }
 
 .quiz-footer {
@@ -697,7 +706,6 @@ body {
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 30px;
-	margin-top: 70px;
 
 	@media @smartphones {
 		flex-flow: column;
