@@ -203,7 +203,7 @@ const ProgressRing = Vue.component('progress-ring', {
 		   :style="{ strokeDashoffset: strokeDashoffset }"
 		   :stroke-width="stroke"
 		   fill="transparent"
-		   :r="radius"
+		   :r="normalizedRadius"
 		   :cx="radius"
 		   :cy="radius"
 		/>
