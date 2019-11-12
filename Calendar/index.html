@@ -78,24 +78,17 @@
 							</section>
 						</div>
 					</div>
-					<div class="navigation-buttons-container">
-						<button class="navigation-button previous-button" v-bind:class="{'disabled' : quizData.onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
-						<button class="navigation-button next-button" v-bind:class="{'disabled' : !nextSectionIsAvailable}" onclick="goToNextQuestion()">Next</button>
-					</div>
 				</section>
 			</div>
 			<div class="quiz-footer-container" v-bind:class="{'active' : quizData.active}">
 				<div class="quiz-footer" v-bind:class="{'active' : quizData.active}">
+					<button class="navigation-button previous-button" v-bind:class="{'disabled' : quizData.onFirstQuestion}" onclick="goToPreviousQuestion()">Previous</button>
 					<div class="quiz-progress-container">
 						<div class="quiz-progress">
-							<div class="quiz-progress-marker-container" v-bind:style="{left: 'calc(' + quizData.quizProgressPercentage + '% - 21px)'}" v-bind:class="{'active' : quizData.active}">
-								<div class="quiz-progress-marker">
-									{{quizData.activeQuestionNumber}}
-								</div>
-							</div>
-							<div class="quiz-progress-line"></div>
+							<progress-ring radius="60" :progress="quizData.quizProgressPercentage" stroke="4"></progress-ring>
 						</div>
 					</div>
+					<button class="navigation-button next-button" v-bind:class="{'disabled' : !nextSectionIsAvailable}" onclick="goToNextQuestion()">Next</button>
 				</div>
 			</div>
 		</section>

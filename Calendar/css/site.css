@@ -669,7 +669,6 @@ body {
 }
 .quiz-footer {
   height: 100px;
-  background: #125c90;
   transform: translate(0px, 100px);
   transition: transform 0.3s;
   display: flex;
@@ -688,10 +687,6 @@ body {
   transform: translate(0, 0);
 }
 /*quiz progress*/
-.quiz-progress-container {
-  width: 100%;
-  padding: 0 30px;
-}
 .quiz-progress {
   width: 100%;
   position: relative;
@@ -761,4 +756,9 @@ body {
   border-radius: 2px;
   position: absolute;
   bottom: -33px;
+}
+circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
