@@ -132,9 +132,11 @@ function goToQuestionNumber(questionNumber) {
 }
 
 function getQuizProgressPercentage() {
-	var numberOfQuestions = Object.keys(quizDataContainer.quizData.sections).length;
-	if (numberOfQuestions > 0) {
-		return (quizDataContainer.quizData.activeQuestionNumber - 1) / (numberOfQuestions) * 100;
+	if (quizDataContainer.quizData.activeQuestionNumber > quizDataContainer.quizData.totalNumberOfQuestions) {
+		return 100;
+	}
+	if (quizDataContainer.quizData.totalNumberOfQuestions > 0) {
+		return (quizDataContainer.quizData.activeQuestionNumber) / (quizDataContainer.quizData.totalNumberOfQuestions) * 100;
 	}
 	else {
 		return 0;
@@ -159,18 +161,9 @@ function enableAndDisableNavigationButtons() {
 
 function getQuizPercentage() {
 	var numberOfQuestionsAnsweredCorrectly = 0;
-	var totalNumberOfQuestions = 0;
-	Object.keys(quizDataContainer.quizData.sections).forEach(function (dataQuestionNumber) {
-		if (quizDataContainer.quizData.sections[dataQuestionNumber].sectionType === 'question') {
-			if (quizDataContainer.quizData.sections[dataQuestionNumber].answeredCorrectly) {
-				numberOfQuestionsAnsweredCorrectly += 1;
-			}
-			totalNumberOfQuestions += 1;
-		}
-	});
+	var totalNumberOfQuestions = quizDataContainer.quizData.totalNumberOfQuestions;
 	return 100 * (numberOfQuestionsAnsweredCorrectly / totalNumberOfQuestions);
 }
-
 
 const ProgressRing = Vue.component('progress-ring', {
 	props: {
@@ -193,7 +186,7 @@ const ProgressRing = Vue.component('progress-ring', {
 	  }
 	},
 	template: `
-	  <svg
+	  <svg class='progress-circle'
 		:height="radius * 2"
 		:width="radius * 2"
 	   >
@@ -221,6 +214,7 @@ function getFakeData() {
 		onLastQuestion: false,
 		quizProgressPercentage: 0,
 		finished: false,
+		totalNumberOfQuestions: 3,
 		sections: {
 			1: {
 				type: "normal",
