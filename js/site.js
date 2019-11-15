@@ -103,6 +103,7 @@ function tabulateResults() {
 			element.percentage = getQuizPercentage();
 		}
 	});
+	quizDataContainer.quizData.results.quizRankings.sort((a, b) => (a.percentage < b.percentage) ? 1 : -1);
 }
 
 
@@ -161,6 +162,13 @@ function enableAndDisableNavigationButtons() {
 
 function getQuizPercentage() {
 	var numberOfQuestionsAnsweredCorrectly = 0;
+	Object.keys(quizDataContainer.quizData.sections).forEach(function (dataQuestionNumber) {
+		if (quizDataContainer.quizData.sections[dataQuestionNumber].sectionType === 'question') {
+			if (quizDataContainer.quizData.sections[dataQuestionNumber].answeredCorrectly) {
+				numberOfQuestionsAnsweredCorrectly += 1;
+			}
+		}
+	});
 	var totalNumberOfQuestions = quizDataContainer.quizData.totalNumberOfQuestions;
 	return 100 * (numberOfQuestionsAnsweredCorrectly / totalNumberOfQuestions);
 }

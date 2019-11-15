@@ -454,7 +454,7 @@ body {
 	padding: 0;
 	grid-column-start: 1;
 	grid-column-end: 3;
-
+	padding-bottom: 10px;
 	@media @tablets {
 		flex-flow: column;
 	}
@@ -523,6 +523,9 @@ body {
 	padding: 0;
 	top: -30px;
 	right: 15px;
+	@media @tablets {
+		top: -10px;
+	}
 }
 .rogue-answer-image-container {
 	height: 25px;
@@ -581,11 +584,9 @@ body {
 .quiz-results-container {
 	display: flex;
 	height: 100%;
-	justify-content: space-between;
+	justify-content: start;
 	align-items: center;
-	@media @tablets {
-		flex-flow: column;
-	}
+	flex-flow: column;
 }
 .quiz-results-header-container {
 	transform: translateY(100px);
@@ -600,40 +601,22 @@ body {
 }
 
 .quiz-results-header-text {
-	font-size: 60px;
+	font-size: 40px;
 	border-bottom: 1px solid #333;
 	color: #333;
-	padding: 0 0 20px 0;
+	padding: 0 0 10px 0;
+	margin-bottom: 20px;
 	@media @tablets {
-		font-size: 40px;
+		padding: 0 0 5px 0;
+		font-size: 30px;
 	}
 	@media @smartphones {
-		font-size: 30px;
+		font-size: 24px;
 		padding: 0;
+		margin-bottom: 5px;
 	}
 }
 
-.quiz-placing-container {
-	display: flex;
-	color: white;
-	background-color: #105c90;
-	height: 400px;
-	width: 400px;
-	border-radius: 200px;
-	justify-content: center;
-	flex-flow: column;
-	align-items: center;
-	padding: 50px 0;
-	transform: translateY(100px);
-	opacity: 0;
-
-	&.active {
-		transition: all 0.5s;
-		transition-delay: 0.6s;
-		transform: translateY(0);
-		opacity: 1;
-	}
-}
 .quiz-place {
 	order: 2;
 	font-size: 30px;
@@ -682,7 +665,15 @@ body {
 	grid-template-columns: 70px auto auto;
 	grid-template-rows: auto;
 	border-radius: 10px;
+	@media @smartphones {
+		margin: 10px 0;
+	}
 }
+.quiz-ranking-list-item-you {
+	background: #0e5c90;
+	color: white;
+}
+
 .quiz-ranking-percentage {
 	grid-row-start: 2;
 	grid-row-end: 3;
@@ -692,6 +683,9 @@ body {
 	font-size: 14px;
 	color: #666;
 	font-weight: 600;
+}
+.quiz-ranking-percentage-you {
+	color: #ffffffc7;
 }
 .rogue-ranking-image {
 	height: 50px;
@@ -741,6 +735,10 @@ body {
 	&.disabled {
 		pointer-events:none;
 	}
+	@media @tablets {
+		width: 140px;
+		font-size: 22px;
+	}
 	@media @smartphones {
 		width: 90px;
 		font-size: 20px;
@@ -752,6 +750,7 @@ body {
 
 	&.disabled {
 		background-color: #c2c2c2;
+		opacity: 0.4;
 	}
 }
 .previous-button {
@@ -760,6 +759,7 @@ body {
 	color: cadetblue;
 	&.disabled {
 		color: #c2c2c2;
+		opacity: 0.4;
 	}
 }
 
@@ -811,6 +811,9 @@ body {
     border: 9px solid #dcdab0;
     box-sizing: border-box;
 	font-weight: bold;
+	@media @tablets {
+		transform: scale(0.8);
+	}
 	@media @smartphones {
 		transform: scale(0.6);
 	}

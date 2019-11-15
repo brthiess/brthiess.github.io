@@ -58,19 +58,13 @@
 									<div class="quiz-results-header-container" v-bind:class="{'active' : section.active}">
 										<h3 class="quiz-results-header-text">Quiz Results</h3>
 									</div>
-									<div class="quiz-placing-container" v-bind:class="{'active' : section.active}">
-										<h5 class="quiz-place">
-											{{ordinalSuffixOf(quizData.results.placing)}} Place
-										</h5>
-										<p class="quiz-percentage">{{Math.round(quizData.results.percentage)}}%</p>
-									</div>
 									<div class="quiz-ranking-container" v-bind:class="{'active' : section.active}">
 										<ul class="quiz-ranking-list">
-											<li v-for="quizRanking in quizData.results.quizRankings" class="quiz-ranking-list-item">
+											<li v-for="(quizRanking, i) in quizData.results.quizRankings" class="quiz-ranking-list-item" v-bind:class="{'quiz-ranking-list-item-you': quizRanking.type == 'user'}">
 												<img class="rogue-ranking-image" v-bind:src="quizRanking.image" />
-												<p class="quiz-ranking-percentage">{{Math.round(quizRanking.percentage)}}%</p>
+												<p class="quiz-ranking-percentage" v-bind:class="{'quiz-ranking-percentage-you': quizRanking.type == 'user'}">{{Math.round(quizRanking.percentage)}}%</p>
 												<p class="quiz-rogue-name">{{quizRanking.name}}</p>
-												<p class="quiz-ranking-place">{{ordinalSuffixOf(quizRanking.rank)}}</p>
+												<p class="quiz-ranking-place">{{ordinalSuffixOf(i+1)}}</p>
 											</li>
 										</ul>
 									</div>
