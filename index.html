@@ -80,7 +80,7 @@
 					<div class="quiz-progress-container">
 						<div class="quiz-progress">
 							<div class="question-number-container">
-								{{quizData.activeQuestionNumber}} / {{quizData.totalNumberOfQuestions}}
+								{{quizData.activeQuestionNumber <= quizData.totalNumberOfQuestions ? quizData.activeQuestionNumber + '/' + quizData.totalNumberOfQuestions : 'End'}}
 							</div>
 							<progress-ring radius="70" :progress="quizData.quizProgressPercentage" stroke="10"></progress-ring>
 						</div>
