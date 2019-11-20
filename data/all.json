@@ -1,0 +1,155 @@
+{
+	"episodes": [
+	  {
+		"date": "August 24, 2019",
+		"episodeNumber": 737,
+		"question": {
+		  "type": "normal",
+		  "answers": [
+			{
+			  "text": "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a radio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements",
+			  "correct": "false",
+			  "number": 1
+			},
+			{
+			  "correct": "true",
+			  "text": "Soviet biologist, Ilya Ivanov, successfully created a human chimp hybrid, although the infant only lived 3 weeks.",
+			  "number": "2"
+			},
+			{
+			  "correct": "false",
+			  "text": "Russian physician Sergei Bugenenko, kept a decapitated dogs head alive and awake with extra corporeal blood perfusion.",
+			  "number": 3
+			}
+		  ],
+		  "rogueAnswers": {
+			"c": "2",
+			"b": "2",
+			"e": "2",
+			"j": "2"
+		  }
+		}
+	  },
+	  {
+		"date": "September 14, 2019",
+		"episodeNumber": 740,
+		"question": {
+		  "type": "normal",
+		  "answers": [
+			{
+			  "text": "Electric eels are not true eels, but knife fish, a group closely related to catfish that contains 220 species that all have electricity producing organs.",
+			  "correct": "false",
+			  "number": "1"
+			},
+			{
+			  "text": "Electric eels are obligate air breathers coming to the surface for air and can drown if they get stuck underwater.",
+			  "correct": "false",
+			  "number": "2"
+			},
+			{
+			  "text": "The electric organ of an electric eel is entirely located under its chin, which it places on animals it wishes to deliver a maximum shock.",
+			  "correct": "true",
+			  "number": "3"
+			}
+		  ],
+		  "rogueAnswers": {
+			"j": "1",
+			"B": "1",
+			"E": "1",
+			"c": "3"
+		  }
+		}
+	  },
+	  {
+		"date": "September 21, 2019",
+		"episodeNumber": 741,
+		"theme": "Dragonflies",
+		"question": {
+		  "type": "normal",
+		  "answers": [
+			{
+			  "text": "Dragonflies may swarm in groups so large, numbering in the billions, that they show up on weather radar.",
+			  "correct": "false",
+			  "number": 1
+			},
+			{
+			  "text": "Of the over 7,000 species of dragonfly, a few dozen have venomous bites or stings, but none threatening to humans.",
+			  "correct": "true",
+			  "number": "2"
+			},
+			{
+			  "text": "Dragonflies are voracious predators, and the large ones have been reported eating hummingbirds and other small vertebrates.",
+			  "correct": "false",
+			  "number": 3
+			}
+		  ],
+		  "rogueAnswers": {
+			"c": "2",
+			"b": "2",
+			"e": "2",
+			"j": "2"
+		  }
+		}
+	  },
+	  {
+		"date": "",
+		"episodeNumber": ,
+		"question": {
+		  "type": "normal",
+		  "answers": [
+			{
+			  "correct": "false",
+			  "text": "",
+			  "number": 1
+			},
+			{
+			  "correct": "true",
+			  "text": "",
+			  "number": "2"
+			},
+			{
+			  "correct": "false",
+			  "text": "",
+			  "number": 3
+			}
+		  ],
+		  "rogueAnswers": {
+			"k": "",
+			"b": "",
+			"e": "",
+			"j": ""
+		  }
+		}
+	  },
+	  {
+		"date": "",
+		"episodeNumber": ,
+		"question": {
+		  "type": "normal",
+		  "answers": [
+			{
+			  "correct": "false",
+			  "text": "",
+			  "number": 1
+			},
+			{
+			  "correct": "true",
+			  "text": "",
+			  "number": "2"
+			},
+			{
+			  "correct": "false",
+			  "text": "",
+			  "number": 3
+			}
+		  ],
+		  "rogueAnswers": {
+			"k": "",
+			"b": "",
+			"e": "",
+			"j": ""
+		  }
+		}
+	  },
+	]
+  }
