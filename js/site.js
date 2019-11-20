@@ -231,7 +231,7 @@ function getFakeData() {
 				episodeNumber: 737,
 				answers: {
 					1: {
-						text: "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a readio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements.",
+						text: "Jose Delgato, a Yale physiologist, invented a 'stimoceiver', a radio controlled implant he placed in the brains of animals and ultimately people to remotely control their emotions and physical movements.",
 						number: 1,
 						correct: false,
 						picked: false,

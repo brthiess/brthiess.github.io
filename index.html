@@ -47,6 +47,7 @@
 										<ul class="rogue-answers-container">
 											<li v-for="rogueAnswer in answer.rogueAnswers" class="rogue-answer-image-container" v-bind:class="{'answered' : section.answered}">
 												<img class="rogue-answer-image" v-bind:src="rogueAnswer.image" />
+												<p class="rogue-answer-name">{{rogueAnswer.name}}</p>
 											</li>
 										</ul>
 										<p class="quiz-answer-text">{{answer.text}}</p>

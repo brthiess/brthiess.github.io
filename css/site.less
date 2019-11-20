@@ -524,20 +524,31 @@ body {
 	display: flex;
 	position: absolute;
 	padding: 0;
-	top: -30px;
+	top: -43px;
 	right: 15px;
+	@media @laptops {
+		top: -30px;
+	}
 	@media @tablets {
 		top: -10px;
 	}
 }
 .rogue-answer-image-container {
-	height: 25px;
-	width: 25px;
+	position: relative;
+	height: 40px;
+	width: 40px;
 	margin-left: 10px;
 	transition: all 0.3s;
 	transition-delay: 1s;
 	transform: translateY(-100px);
 	opacity: 0;
+	display: flex;
+    flex-flow: column;
+    align-items: center;
+	@media @laptops {
+		height: 25px;
+		width: 25px;
+	}
 }
 @iterations: 1;
 
@@ -563,7 +574,29 @@ body {
     object-fit: cover;
     object-position: center;
 }
-
+.rogue-answer-name {
+    background: #0e5c90;
+    box-shadow: 0px 0px 3px 2px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    left: -50%;
+    transition: all;
+    visibility: hidden;
+    opacity: 0;
+	transition-delay: 0.05s;
+	min-width: min-content;
+	&:hover {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+.rogue-answer-image:hover+.rogue-answer-name {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
 .quiz-question-number {
 	font-size: 140px;
 	align-self: flex-end;
