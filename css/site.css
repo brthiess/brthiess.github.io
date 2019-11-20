@@ -521,7 +521,7 @@ body.quiz-active {
 }
 @media only screen and (max-width: 1029px) {
   .rogue-answers-container {
-    top: -10px;
+    top: -13px;
   }
 }
 .rogue-answer-image-container {
@@ -598,6 +598,11 @@ body.quiz-active {
 .rogue-answer-name:hover {
   opacity: 1;
   visibility: visible;
+}
+@media only screen and (max-width: 479px) {
+  .rogue-answer-name {
+    font-size: 13px;
+  }
 }
 .rogue-answer-image:hover + .rogue-answer-name {
   opacity: 1;
