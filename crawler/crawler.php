@@ -17,6 +17,7 @@ function getItems($html){
 	$dom = new simple_html_dom();
 	$dom->load($html);
 	$items = [];
+	$number = 1;
 	foreach($dom->find('.science-fiction__item') as $scienceFictionItem){
 		$isFiction = stripos($scienceFictionItem->find(".quiz__answer",0)->plaintext, "Science") !== false ? false : true;
 		$text = $scienceFictionItem->find("p", 0)->plaintext;
@@ -24,22 +25,41 @@ function getItems($html){
 		$items[] = array (
 			'isFiction' => $isFiction,
 			'text' => $text,
-			'title' => $title
+			'title' => $title,
+			'number' => $number
 		);
+		$number++;
 	}
 	return $items;
 }
 
-$episodes = array();
-for($episodeNumber = 750; $episodeNumber > 100; $episodeNumber--){
-	$url = getUrl($episodeNumber);
-	$html = getHtmlFromUrl($url);
-
-	
-	$items = getItems($html);
-	$episodes[] = array (
-		'items' => $items,
-		'episodeNumber' => $episodeNumber
-	);
+function getPublishDate($html){
+	$dom = new simple_html_dom();
+	$dom->load($html);
+	$date = $dom->find('.podcast__pub-date',0)->plaintext;
+	return $date;
 }
+
+$episodes = array();
+for($episodeNumber = 103; $episodeNumber > 100; $episodeNumber--){
+	try {
+		echo "\nGetting episode number: " . $episodeNumber;
+		$url = getUrl($episodeNumber);
+		$html = getHtmlFromUrl($url);
+
+		
+		$items = getItems($html);
+		$date = getPublishDate($html);
+
+		$episodes[] = array (
+			'items' => $items,
+			'episodeNumber' => $episodeNumber,
+			'date' => $date
+		);
+	}
+	catch(Exception $e){
+		echo $e->getMessage();
+	}
+}
+file_put_contents("test-all.json", json_encode($episodes));
 
