@@ -4,6 +4,7 @@ include "simple_html_dom.php";
 
 
 function getUrl($episodeNumber){
+	sleep(1);
 	return "https://www.theskepticsguide.org/podcasts/episode-" . $episodeNumber;
 }
 
@@ -41,7 +42,7 @@ function getPublishDate($html){
 }
 
 $episodes = array();
-for($episodeNumber = 103; $episodeNumber > 100; $episodeNumber--){
+for($episodeNumber = 745; $episodeNumber > 100; $episodeNumber--){
 	try {
 		echo "\nGetting episode number: " . $episodeNumber;
 		$url = getUrl($episodeNumber);
