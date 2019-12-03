@@ -24,13 +24,17 @@ function beginQuiz() {
 function setupQuizUI() {
 	$("[data-change-when-quiz-active]").addClass("quiz-active");
 }
-function getQuestions(createNewQuiz) {
+function getQuestions() {
 	return new Promise(function (resolve, reject) {
-		setTimeout(function () {
-			resolve(getFakeData());
-		}, 1000);
-	});
+        $.ajax({
+            url: '/json/quiz-1.json',
+            success: function (data) {
+                resolve(data);
+            }
+        });
+    });
 }
+
 
 function initializeQuiz() {
 	quizTemplate = new Vue({
